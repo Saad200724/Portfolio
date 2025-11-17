@@ -24,9 +24,9 @@ export default function About() {
       color: "from-emerald-500 to-teal-600"
     },
     { 
-      category: "Tools", 
-      items: ["Git", "Docker", "VS Code"],
-      icon: Sparkles,
+      category: "Learning", 
+      items: ["Data Science (Basic)", "AI/ML Learner"],
+      icon: Brain,
       color: "from-orange-500 to-red-600"
     }
   ];

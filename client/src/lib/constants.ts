@@ -4,7 +4,7 @@ export const DEVELOPER_INFO = {
   name: "Saad Bin Tofayel Tahsin",
   title: "Python Developer",
   subtitle: "Fullstack Web Developer", 
-  learning: "Data Science Learner",
+  learning: "AI/ML Learner",
   tagline: "I build performant systems, responsive web apps, and I'm diving deep into data. Ready to bring your ideas to life with clean code and stunning interfaces.",
   bio: "With 2.5+ years of Python development experience and 1.5+ years in fullstack web development, I've built everything from scalable backend APIs to beautiful, responsive frontends. Currently expanding my expertise into data science and machine learning.",
   passion: "I'm passionate about writing clean, maintainable code and creating digital experiences that users love. When I'm not coding, you'll find me exploring new technologies, contributing to open source, or diving deep into data patterns.",
