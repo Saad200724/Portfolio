@@ -101,6 +101,7 @@ export default function About() {
               >
                 {[
                   { label: "Experience", value: "2.5+", subtitle: "Years Coding", icon: Code2, gradient: "from-cyan-500 to-blue-600" },
+                  { label: "Projects", value: "15+", subtitle: "Projects Completed", icon: Award, gradient: "from-emerald-500 to-teal-600" },
                   { label: "MIT", value: "MIT", subtitle: "Aspirants", icon: Briefcase, gradient: "from-purple-500 to-pink-600" }
                 ].map((stat, index) => (
                   <motion.div
