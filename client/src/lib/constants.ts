@@ -6,8 +6,8 @@ export const DEVELOPER_INFO = {
   subtitle: "Fullstack Web Developer", 
   learning: "AI/ML Learner",
   tagline: "I build performant systems, responsive web apps, and I'm diving deep into data. Ready to bring your ideas to life with clean code and stunning interfaces.",
-  bio: "With 2.5+ years of Python development experience and 1.5+ years in fullstack web development, I've built everything from scalable backend APIs to beautiful, responsive frontends. Currently expanding my expertise into data science and machine learning.",
-  passion: "I'm passionate about writing clean, maintainable code and creating digital experiences that users love. When I'm not coding, you'll find me exploring new technologies, contributing to open source, or diving deep into data patterns.",
+  bio: "With 2.5+ years of Python development experience and 1.5+ years in fullstack web development, I've built everything from scalable backend APIs to beautiful, responsive frontends. Currently expanding my expertise into data science and machine learning, exploring the fascinating world of artificial intelligence and its real-world applications.",
+  passion: "I'm passionate about writing clean, maintainable code and creating digital experiences that users love. My journey into AI/ML is driven by curiosity and the desire to build intelligent systems that solve real problems. When I'm not coding, you'll find me exploring new technologies, experimenting with machine learning models, contributing to open source, or diving deep into data patterns and neural network architectures.",
   email: "saadbintofayeltahsin@gmail.com",
   location: "Dhaka, Bangladesh",
   responseTime: "Within 24 hours",
@@ -37,9 +37,14 @@ export const EXPERIENCES: Experience[] = [
     description: "React, Node.js, database design"
   },
   {
-    role: "Data Science Student",
+    role: "Data Science (Basic)",
     duration: "Currently Learning",
-    description: "TensorFlow, Pandas, Scikit-learn"
+    description: "Data analysis, visualization, statistical methods"
+  },
+  {
+    role: "AI/ML Student",
+    duration: "Currently Learning",
+    description: "TensorFlow, Pandas, Scikit-learn, Neural Networks"
   }
 ];
 
