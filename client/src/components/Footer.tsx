@@ -67,10 +67,10 @@ export default function Footer() {
               <div className="flex flex-col gap-3">
                 {footerLinks.map((link) => (
                   <Link key={link.path} href={link.path}>
-                    <a className="text-white/70 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group">
+                    <span className="text-white/70 hover:text-cyan-400 transition-colors duration-300 flex items-center gap-2 group cursor-pointer">
                       <span className="w-0 group-hover:w-2 h-0.5 bg-cyan-400 transition-all duration-300" />
                       {link.name}
-                    </a>
+                    </span>
                   </Link>
                 ))}
               </div>

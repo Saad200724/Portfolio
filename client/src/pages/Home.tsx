@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Download, Code, Sparkles, Zap, Rocket, Target } from "lucide-react";
+import { Download, Code, Award, Sparkles, Zap, Rocket, Target } from "lucide-react";
 import { Link } from "wouter";
 import { Github, MessageCircle, Briefcase, Facebook } from "lucide-react";
 import SEO from "@/components/SEO";
