@@ -4,6 +4,11 @@ import { Link } from "wouter";
 import { Github, MessageCircle, Briefcase, Facebook } from "lucide-react";
 import SEO from "@/components/SEO";
 import { DEVELOPER_INFO, SOCIAL_LINKS } from "@/lib/constants";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 
 const profileImage = "https://avatars.githubusercontent.com/u/156579953?v=4";
 
@@ -160,17 +165,24 @@ export default function Home() {
 
               <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-poppins font-bold mb-6 leading-tight">
                 Hi, I'm{" "}
-                <span className="relative inline-block">
-                  <span className="relative z-10 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
-                    Saad
-                  </span>
-                  <motion.span 
-                    className="absolute bottom-2 left-0 w-full h-3 bg-gradient-to-r from-cyan-500/30 to-purple-500/30 -z-10 blur-sm"
-                    initial={{ width: 0 }}
-                    animate={{ width: "100%" }}
-                    transition={{ duration: 0.8, delay: 1 }}
-                  />
-                </span>
+                <HoverCard>
+                  <HoverCardTrigger asChild>
+                    <span className="relative inline-block cursor-pointer">
+                      <span className="relative z-10 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
+                        Saad
+                      </span>
+                      <motion.span 
+                        className="absolute bottom-2 left-0 w-full h-3 bg-gradient-to-r from-cyan-500/30 to-purple-500/30 -z-10 blur-sm"
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ duration: 0.8, delay: 1 }}
+                      />
+                    </span>
+                  </HoverCardTrigger>
+                  <HoverCardContent className="bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-xl border border-cyan-500/30 text-white">
+                    <p className="text-sm font-medium">Saad Bin Tofayel (Tahsin)</p>
+                  </HoverCardContent>
+                </HoverCard>
                 <motion.span
                   animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
                   transition={{ duration: 2, delay: 1.5, repeat: Infinity, repeatDelay: 3 }}

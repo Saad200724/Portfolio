@@ -117,6 +117,15 @@ export default function Footer() {
                 © {new Date().getFullYear()} {DEVELOPER_INFO.name}. Built with{" "}
                 <Heart className="inline w-4 h-4 text-red-500 fill-red-500 mx-1" />
                 using React, TypeScript & Tailwind CSS.
+                <br />
+                <a 
+                  href="https://tahsin.cloud" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-cyan-400 hover:text-cyan-300 transition-colors duration-300"
+                >
+                  tahsin.cloud
+                </a>
               </motion.p>
 
               <motion.button
