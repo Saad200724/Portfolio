@@ -16,6 +16,11 @@ export const DEVELOPER_INFO = {
       title: "President",
       company: "CyberHub - The IT Club",
       description: "School IT club leadership and tech initiatives"
+    },
+    {
+      title: "CEO",
+      company: "ZnForge",
+      description: "Leading innovative tech solutions and product development"
     }
   ]
 };
