@@ -22,6 +22,7 @@ export default function Navigation() {
     { path: "/about", label: "About" },
     { path: "/skills", label: "Skills" },
     { path: "/projects", label: "Projects" },
+    { path: "/eca", label: "ECA" },
     { path: "/contact", label: "Contact" }
   ];
 

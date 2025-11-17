@@ -11,6 +11,7 @@ import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Skills from "@/pages/Skills";
 import Projects from "@/pages/Projects";
+import ECA from "@/pages/ECA";
 import Contact from "@/pages/Contact";
 import NotFound from "@/pages/not-found";
 
@@ -37,6 +38,7 @@ function Router() {
           <Route path="/about" component={() => <PageWrapper><About /></PageWrapper>} />
           <Route path="/skills" component={() => <PageWrapper><Skills /></PageWrapper>} />
           <Route path="/projects" component={() => <PageWrapper><Projects /></PageWrapper>} />
+          <Route path="/eca" component={() => <PageWrapper><ECA /></PageWrapper>} />
           <Route path="/contact" component={() => <PageWrapper><Contact /></PageWrapper>} />
           <Route component={() => <PageWrapper><NotFound /></PageWrapper>} />
         </Switch>
