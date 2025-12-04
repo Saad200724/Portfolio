@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock, Mail, MessageSquare, Clock, User, LogOut } from "lucide-react";
+import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock, Mail, MessageSquare, Clock, User } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -76,13 +76,11 @@ export default function PersonalSpace() {
     if (!isAuthenticated) {
       setLocation("/login");
     }
-  }, [setLocation]);
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("isAuthenticated");
-    setLocation("/login");
-    toast({ title: "Logged out successfully" });
-  };
+    return () => {
+      sessionStorage.removeItem("isAuthenticated");
+    };
+  }, [setLocation]);
 
   const { data: projects = [] } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
@@ -133,14 +131,6 @@ export default function PersonalSpace() {
                   Admin Panel
                 </span>
               </div>
-              <Button
-                onClick={handleLogout}
-                variant="outline"
-                className="border-red-500/30 hover:border-red-500/50 hover:bg-red-500/10 text-red-400"
-              >
-                <LogOut className="mr-2" size={16} />
-                Logout
-              </Button>
             </div>
             <h1 className="text-4xl sm:text-5xl font-poppins font-bold mb-4">
               <span className="bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
