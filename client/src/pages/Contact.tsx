@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
-import { Send, Mail, MapPin, Clock, Github, MessageCircle, Briefcase, Download, Facebook, Sparkles } from "lucide-react";
+import { Send, Mail, MapPin, Clock, Github, MessageCircle, Briefcase, Download, Facebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -131,7 +131,7 @@ export default function Contact() {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <span className="text-sm font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-2">
-                  <Sparkles size={16} />
+                  <Mail size={16} />
                   Get In Touch
                 </span>
               </motion.div>

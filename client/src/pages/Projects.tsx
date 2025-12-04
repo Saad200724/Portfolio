@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Sparkles } from "lucide-react";
+import { Github, Sparkles, FolderKanban } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 import ProjectCard from "@/components/ProjectCard";
@@ -80,7 +80,7 @@ export default function Projects() {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <span className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent flex items-center gap-2">
-                  <Sparkles size={16} />
+                  <FolderKanban size={16} />
                   Showcase
                 </span>
               </motion.div>

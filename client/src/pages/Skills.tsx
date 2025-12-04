@@ -94,7 +94,7 @@ export default function Skills() {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <span className="text-sm font-semibold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent flex items-center gap-2">
-                  <TrendingUp size={16} />
+                  <Code size={16} />
                   Technical Excellence
                 </span>
               </motion.div>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Sparkles, Rocket, Award, Calendar, Building } from "lucide-react";
+import { Rocket, Award, Calendar, Building } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 
@@ -45,7 +45,7 @@ export default function ECA() {
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
                 <span className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent flex items-center gap-2">
-                  <Sparkles size={16} />
+                  <Award size={16} />
                   Extra Curricular Activities
                 </span>
               </motion.div>
