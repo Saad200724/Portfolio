@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -8,11 +9,10 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
-import { apiRequest } from "@/lib/queryClient";
 import { Badge } from "@/components/ui/badge";
 
 interface Project {
@@ -98,12 +98,8 @@ export default function PersonalSpace() {
     queryKey: ["/api/additional-skills"],
   });
 
-  const { data: contactMessages = [], isLoading } = useQuery<ContactMessage[]>({
-    queryKey: ["contact-messages"],
-    queryFn: async () => {
-      const response = await apiRequest("GET", "/api/contact");
-      return response.json();
-    },
+  const { data: contactMessages = [], isLoading: messagesLoading } = useQuery<ContactMessage[]>({
+    queryKey: ["/api/contact"],
   });
 
   return (
@@ -182,7 +178,7 @@ export default function PersonalSpace() {
             <TabsContent value="messages">
               <MessagesPanel 
                 contactMessages={contactMessages} 
-                isLoading={isLoading}
+                isLoading={messagesLoading}
               />
             </TabsContent>
           </Tabs>
@@ -694,10 +690,10 @@ function MessagesPanel({ contactMessages, isLoading }: {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="text-white flex items-center gap-3">
           <MessageSquare className="text-cyan-400" />
-          Contact Form Submissions ({contactMessages.length})
+          Contact Form Submissions ({contactMessages?.length || 0})
         </CardTitle>
         <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 px-4 py-1">
-          {contactMessages.length} Messages
+          {contactMessages?.length || 0} Messages
         </Badge>
       </CardHeader>
       <CardContent>
@@ -712,7 +708,7 @@ function MessagesPanel({ contactMessages, isLoading }: {
             </motion.div>
             <p className="mt-4">Loading messages...</p>
           </div>
-        ) : contactMessages.length === 0 ? (
+        ) : !contactMessages || contactMessages.length === 0 ? (
           <div className="text-center py-16">
             <MessageSquare className="mx-auto text-white/20 mb-4" size={64} />
             <p className="text-white/50 text-lg">No contact messages yet</p>
@@ -785,8 +781,7 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
       if (!res.ok) throw new Error(result.message || "Failed to update password");
       return result;
     },
-    onSuccess: (data) => {
-      localStorage.setItem("adminPassword", passwordForm.newPassword);
+    onSuccess: () => {
       toast({ 
         title: "Password updated successfully",
         description: "Your new password has been saved."
