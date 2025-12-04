@@ -72,6 +72,7 @@ send_confirmation_email(name, email)
       const projects = await storage.getAllProjects();
       res.json(projects);
     } catch (error) {
+      console.error("Error fetching projects:", error);
       res.status(500).json({ success: false, message: "Failed to fetch projects" });
     }
   });

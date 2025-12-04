@@ -1,15 +1,61 @@
 import { motion } from "framer-motion";
-import { Code, Layers, Brain, Zap, Sparkles, TrendingUp } from "lucide-react";
+import { Code, Layers, Brain, Zap, Sparkles, TrendingUp, Database, Cloud } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 import SkillBar from "@/components/SkillBar";
 import { SKILL_CATEGORIES, ADDITIONAL_SKILLS } from "@/lib/constants";
 
+interface DbSkillCategory {
+  id: number;
+  name: string;
+  icon: string;
+  skills: {
+    id: number;
+    name: string;
+    level: string;
+    percentage: number;
+  }[];
+}
+
+interface DbAdditionalSkill {
+  id: number;
+  name: string;
+}
+
 export default function Skills() {
+  const { data: dbCategories = [] } = useQuery<DbSkillCategory[]>({
+    queryKey: ["/api/skill-categories"],
+  });
+
+  const { data: dbAdditionalSkills = [] } = useQuery<DbAdditionalSkill[]>({
+    queryKey: ["/api/additional-skills"],
+  });
+
+  const allCategories = [
+    ...dbCategories.map(cat => ({
+      name: cat.name,
+      icon: cat.icon,
+      skills: cat.skills.map(s => ({
+        name: s.name,
+        level: s.level as 'Expert' | 'Advanced' | 'Intermediate' | 'Learning',
+        percentage: s.percentage
+      }))
+    })),
+    ...SKILL_CATEGORIES
+  ];
+
+  const allAdditionalSkills = [
+    ...dbAdditionalSkills.map(s => s.name),
+    ...ADDITIONAL_SKILLS
+  ];
+
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case "fas fa-code": return <Code size={28} />;
       case "fas fa-layer-group": return <Layers size={28} />;
       case "fas fa-brain": return <Brain size={28} />;
+      case "fas fa-database": return <Database size={28} />;
+      case "fas fa-cloud": return <Cloud size={28} />;
       default: return <Code size={28} />;
     }
   };
@@ -17,7 +63,9 @@ export default function Skills() {
   const iconColors = [
     "from-cyan-500 to-blue-600",
     "from-purple-500 to-pink-600",
-    "from-emerald-500 to-teal-600"
+    "from-emerald-500 to-teal-600",
+    "from-orange-500 to-red-600",
+    "from-indigo-500 to-purple-600"
   ];
 
   return (
@@ -28,7 +76,6 @@ export default function Skills() {
         url="/skills"
       />
       <div className="pt-32 pb-20 relative overflow-hidden">
-        {/* Background Effects */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(168,85,247,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.03)_1px,transparent_1px)] bg-[size:3rem_3rem]" />
         
@@ -61,18 +108,16 @@ export default function Skills() {
               </p>
             </motion.div>
             
-            {/* Premium Skills Categories */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-              {SKILL_CATEGORIES.map((category, categoryIndex) => (
+              {allCategories.map((category, categoryIndex) => (
                 <motion.div 
-                  key={category.name}
+                  key={`${category.name}-${categoryIndex}`}
                   className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-purple-500/50 transition-all duration-500"
                   initial={{ opacity: 0, y: 50 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 + categoryIndex * 0.15 }}
                   whileHover={{ scale: 1.02, y: -8 }}
                 >
-                  {/* Gradient Overlay on Hover */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${iconColors[categoryIndex % iconColors.length]} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
                   
                   <div className="relative">
@@ -88,7 +133,7 @@ export default function Skills() {
                     <div className="space-y-5">
                       {category.skills.map((skill, skillIndex) => (
                         <SkillBar 
-                          key={skill.name} 
+                          key={`${skill.name}-${skillIndex}`}
                           skill={skill} 
                           index={skillIndex} 
                         />
@@ -99,7 +144,6 @@ export default function Skills() {
               ))}
             </div>
             
-            {/* Premium Additional Skills Section */}
             <motion.div 
               className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-10 border border-white/10"
               initial={{ opacity: 0, y: 30 }}
@@ -118,9 +162,9 @@ export default function Skills() {
               </div>
               
               <div className="flex flex-wrap justify-center gap-4">
-                {ADDITIONAL_SKILLS.map((skill, index) => (
+                {allAdditionalSkills.map((skill, index) => (
                   <motion.span 
-                    key={skill}
+                    key={`${skill}-${index}`}
                     className="group relative px-6 py-3 bg-gradient-to-r from-white/5 to-white/10 backdrop-blur-sm rounded-2xl border border-white/20 hover:border-purple-500/50 transition-all duration-300 overflow-hidden cursor-pointer"
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
@@ -134,7 +178,6 @@ export default function Skills() {
               </div>
             </motion.div>
 
-            {/* Learning Journey CTA */}
             <motion.div
               className="text-center mt-16"
               initial={{ opacity: 0, y: 20 }}

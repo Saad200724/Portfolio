@@ -1,14 +1,46 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Github, Sparkles } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 import ProjectCard from "@/components/ProjectCard";
 import { PROJECTS, SOCIAL_LINKS } from "@/lib/constants";
 
 type FilterType = 'all' | 'fullstack' | 'backend' | 'frontend' | 'data';
 
+interface DbProject {
+  id: number;
+  title: string;
+  description: string;
+  technologies: string[];
+  category: string;
+  githubUrl: string | null;
+  liveUrl: string | null;
+  docsUrl: string | null;
+  imageUrl: string;
+}
+
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState<FilterType>('all');
+
+  const { data: dbProjects = [] } = useQuery<DbProject[]>({
+    queryKey: ["/api/projects"],
+  });
+
+  const allProjects = [
+    ...dbProjects.map(p => ({
+      id: p.id.toString(),
+      title: p.title,
+      description: p.description,
+      technologies: p.technologies,
+      category: p.category as 'fullstack' | 'backend' | 'frontend' | 'data',
+      githubUrl: p.githubUrl || undefined,
+      liveUrl: p.liveUrl || undefined,
+      docsUrl: p.docsUrl || undefined,
+      imageUrl: p.imageUrl
+    })),
+    ...PROJECTS
+  ];
 
   const filters: { value: FilterType; label: string }[] = [
     { value: 'all', label: 'All Projects' },
@@ -19,8 +51,8 @@ export default function Projects() {
   ];
 
   const filteredProjects = activeFilter === 'all' 
-    ? PROJECTS 
-    : PROJECTS.filter(project => project.category === activeFilter);
+    ? allProjects 
+    : allProjects.filter(project => project.category === activeFilter);
 
   return (
     <>
@@ -30,7 +62,6 @@ export default function Projects() {
         url="/projects"
       />
       <div className="pt-32 pb-20 relative overflow-hidden">
-        {/* Background Effects */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(14,165,233,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
         
@@ -63,7 +94,6 @@ export default function Projects() {
               </p>
             </motion.div>
             
-            {/* Premium Filter Buttons */}
             <motion.div 
               className="flex flex-wrap justify-center gap-4 mb-16"
               initial={{ opacity: 0, y: 20 }}
@@ -95,7 +125,6 @@ export default function Projects() {
               ))}
             </motion.div>
             
-            {/* Projects Grid with Animation */}
             <AnimatePresence mode="wait">
               <motion.div 
                 key={activeFilter}
@@ -129,7 +158,6 @@ export default function Projects() {
               </motion.div>
             )}
             
-            {/* View More CTA */}
             <motion.div 
               className="text-center mt-16"
               initial={{ opacity: 0, y: 30 }}
