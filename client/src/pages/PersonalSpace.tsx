@@ -98,13 +98,7 @@ export default function PersonalSpace() {
     queryKey: ["contact-messages"],
     queryFn: async () => {
       const response = await apiRequest("GET", "/api/contact");
-      return response as Array<{
-        id: number;
-        name: string;
-        email: string;
-        message: string;
-        createdAt: string;
-      }>;
+      return response.json();
     },
   });
 
