@@ -14,6 +14,7 @@ import Projects from "@/pages/Projects";
 import ECA from "@/pages/ECA";
 import Contact from "@/pages/Contact";
 import PersonalSpace from "@/pages/PersonalSpace";
+import Login from "@/pages/Login";
 import NotFound from "@/pages/not-found";
 
 function PageWrapper({ children }: { children: React.ReactNode }) {
@@ -41,6 +42,7 @@ function Router() {
           <Route path="/projects" component={() => <PageWrapper><Projects /></PageWrapper>} />
           <Route path="/eca" component={() => <PageWrapper><ECA /></PageWrapper>} />
           <Route path="/contact" component={() => <PageWrapper><Contact /></PageWrapper>} />
+          <Route path="/login" component={Login} />
           <Route path="/personal-space" component={() => <PageWrapper><PersonalSpace /></PageWrapper>} />
           <Route component={() => <PageWrapper><NotFound /></PageWrapper>} />
         </Switch>

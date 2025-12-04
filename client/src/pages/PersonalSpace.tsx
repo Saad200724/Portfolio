@@ -1,7 +1,7 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save } from "lucide-react";
+import { motion } from "framer-motion";
+import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import { useLocation } from "wouter";
 
 interface Project {
   id: number;
@@ -58,6 +59,14 @@ interface AdditionalSkill {
 export default function PersonalSpace() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
+    if (!isAuthenticated) {
+      setLocation("/login");
+    }
+  }, [setLocation]);
 
   const { data: projects = [] } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
@@ -85,7 +94,7 @@ export default function PersonalSpace() {
       <div className="pt-24 pb-20 relative overflow-hidden min-h-screen">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(14,165,233,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <motion.div
             className="text-center mb-12"
@@ -650,9 +659,29 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
   const [categoryOpen, setCategoryOpen] = useState(false);
   const [skillOpen, setSkillOpen] = useState(false);
   const [additionalOpen, setAdditionalOpen] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({ currentPassword: "", newPassword: "" });
   const [categoryForm, setCategoryForm] = useState({ name: "", icon: "fas fa-code" });
   const [skillForm, setSkillForm] = useState({ categoryId: 0, name: "", level: "Intermediate", percentage: 50 });
   const [additionalForm, setAdditionalForm] = useState({ name: "" });
+
+  const updatePasswordMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await fetch("/api/update-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Failed to update password");
+      return res.json();
+    },
+    onSuccess: () => {
+      toast({ title: "Password updated successfully" });
+      setPasswordForm({ currentPassword: "", newPassword: "" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update password", variant: "destructive" });
+    }
+  });
 
   const createCategoryMutation = useMutation({
     mutationFn: async (data: any) => {
@@ -764,6 +793,53 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
 
   return (
     <div className="space-y-6">
+      <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-white">Password Management</CardTitle>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="bg-gradient-to-r from-purple-600 to-blue-600">
+                <Lock className="mr-2" size={16} />
+                Change Password
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-gray-900 border-white/10 text-white">
+              <DialogHeader>
+                <DialogTitle>Update Password</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={(e) => {
+                e.preventDefault();
+                updatePasswordMutation.mutate(passwordForm);
+              }} className="space-y-4 mt-4">
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Current Password</label>
+                  <Input 
+                    type="password"
+                    value={passwordForm.currentPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">New Password</label>
+                  <Input 
+                    type="password"
+                    value={passwordForm.newPassword}
+                    onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    required
+                  />
+                </div>
+                <Button type="submit" className="w-full bg-gradient-to-r from-purple-600 to-blue-600">
+                  Update Password
+                </Button>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </CardHeader>
+      </Card>
+
       <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-white">Skill Categories ({skillCategories.length})</CardTitle>
