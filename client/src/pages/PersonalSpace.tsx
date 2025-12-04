@@ -153,7 +153,7 @@ export default function PersonalSpace() {
           </motion.div>
 
           <Tabs defaultValue="projects" className="w-full max-w-6xl mx-auto">
-            <TabsList className="grid w-full grid-cols-3 mb-8 bg-white/5 border border-white/10 rounded-xl p-1">
+            <TabsList className="grid w-full grid-cols-4 mb-8 bg-white/5 border border-white/10 rounded-xl p-1">
               <TabsTrigger value="projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <FolderKanban className="mr-2" size={18} />
                 Projects
@@ -165,6 +165,10 @@ export default function PersonalSpace() {
               <TabsTrigger value="skills" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <Zap className="mr-2" size={18} />
                 Skills
+              </TabsTrigger>
+              <TabsTrigger value="messages" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
+                <MessageSquare className="mr-2" size={18} />
+                Messages
               </TabsTrigger>
             </TabsList>
 
@@ -184,74 +188,14 @@ export default function PersonalSpace() {
                 toast={toast} 
               />
             </TabsContent>
+
+            <TabsContent value="messages">
+              <MessagesPanel 
+                contactMessages={contactMessages} 
+                isLoading={isLoading}
+              />
+            </TabsContent>
           </Tabs>
-
-          {/* Contact Messages Section */}
-          <motion.div
-            className="mb-12"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
-                <MessageSquare className="text-cyan-400" />
-                Contact Form Submissions
-              </h2>
-              <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
-                {contactMessages.length} Messages
-              </Badge>
-            </div>
-
-            {isLoading ? (
-              <div className="text-center text-white/60 py-12">Loading messages...</div>
-            ) : contactMessages.length === 0 ? (
-              <Card className="bg-gray-900/50 border-cyan-500/20">
-                <CardContent className="py-12 text-center text-white/60">
-                  No contact messages yet
-                </CardContent>
-              </Card>
-            ) : (
-              <div className="grid gap-4">
-                {contactMessages.map((msg, index) => (
-                  <motion.div
-                    key={msg.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Card className="bg-gray-900/50 border-cyan-500/20 hover:border-cyan-500/40 transition-all">
-                      <CardHeader>
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <CardTitle className="text-white flex items-center gap-2 mb-2">
-                              <User className="text-cyan-400" size={18} />
-                              {msg.name}
-                            </CardTitle>
-                            <CardDescription className="flex items-center gap-4">
-                              <span className="flex items-center gap-1">
-                                <Mail className="text-purple-400" size={14} />
-                                {msg.email}
-                              </span>
-                              <span className="flex items-center gap-1">
-                                <Clock className="text-purple-400" size={14} />
-                                {new Date(msg.createdAt).toLocaleString()}
-                              </span>
-                            </CardDescription>
-                          </div>
-                        </div>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
-                          <p className="text-white/80 whitespace-pre-wrap">{msg.message}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </motion.div>
         </div>
       </div>
     </>
@@ -751,6 +695,81 @@ function EcasPanel({ ecas, queryClient, toast }: { ecas: Eca[], queryClient: any
   );
 }
 
+function MessagesPanel({ contactMessages, isLoading }: { 
+  contactMessages: ContactMessage[], 
+  isLoading: boolean 
+}) {
+  return (
+    <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-white flex items-center gap-3">
+          <MessageSquare className="text-cyan-400" />
+          Contact Form Submissions ({contactMessages.length})
+        </CardTitle>
+        <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30 px-4 py-1">
+          {contactMessages.length} Messages
+        </Badge>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="text-center text-white/60 py-12">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="inline-block"
+            >
+              <Mail className="text-cyan-400" size={32} />
+            </motion.div>
+            <p className="mt-4">Loading messages...</p>
+          </div>
+        ) : contactMessages.length === 0 ? (
+          <div className="text-center py-16">
+            <MessageSquare className="mx-auto text-white/20 mb-4" size={64} />
+            <p className="text-white/50 text-lg">No contact messages yet</p>
+            <p className="text-white/30 text-sm mt-2">Messages from your contact form will appear here</p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {contactMessages.map((msg, index) => (
+              <motion.div
+                key={msg.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+                className="p-6 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
+                      <User className="text-white" size={20} />
+                    </div>
+                    <div>
+                      <h3 className="text-white font-semibold text-lg">{msg.name}</h3>
+                      <div className="flex items-center gap-4 mt-1">
+                        <span className="flex items-center gap-1 text-white/60 text-sm">
+                          <Mail size={14} />
+                          {msg.email}
+                        </span>
+                        <span className="flex items-center gap-1 text-white/40 text-sm">
+                          <Clock size={14} />
+                          {new Date(msg.createdAt).toLocaleDateString()} at {new Date(msg.createdAt).toLocaleTimeString()}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+                  <p className="text-white/80 whitespace-pre-wrap leading-relaxed">{msg.message}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
 function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: { 
   skillCategories: SkillCategory[], 
   additionalSkills: AdditionalSkill[],
@@ -772,15 +791,24 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
-      if (!res.ok) throw new Error("Failed to update password");
-      return res.json();
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.message || "Failed to update password");
+      return result;
     },
-    onSuccess: () => {
-      toast({ title: "Password updated successfully" });
+    onSuccess: (data) => {
+      localStorage.setItem("adminPassword", passwordForm.newPassword);
+      toast({ 
+        title: "Password updated successfully",
+        description: "Your new password has been saved."
+      });
       setPasswordForm({ currentPassword: "", newPassword: "" });
     },
-    onError: () => {
-      toast({ title: "Failed to update password", variant: "destructive" });
+    onError: (error: any) => {
+      toast({ 
+        title: "Failed to update password", 
+        description: error.message || "Please check your current password and try again.",
+        variant: "destructive" 
+      });
     }
   });
 
