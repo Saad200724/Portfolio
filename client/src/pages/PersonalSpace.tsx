@@ -1,17 +1,19 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock } from "lucide-react";
+import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock, Mail, MessageSquare, Clock, User } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
+import { apiRequest } from "@/lib/queryClient";
+import { Badge } from "@/components/ui/badge";
 
 interface Project {
   id: number;
@@ -56,6 +58,14 @@ interface AdditionalSkill {
   name: string;
 }
 
+interface ContactMessage {
+  id: number;
+  name: string;
+  email: string;
+  message: string;
+  createdAt: string;
+}
+
 export default function PersonalSpace() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -82,6 +92,20 @@ export default function PersonalSpace() {
 
   const { data: additionalSkills = [] } = useQuery<AdditionalSkill[]>({
     queryKey: ["/api/additional-skills"],
+  });
+
+  const { data: contactMessages = [], isLoading } = useQuery<ContactMessage[]>({
+    queryKey: ["contact-messages"],
+    queryFn: async () => {
+      const response = await apiRequest("GET", "/api/contact");
+      return response as Array<{
+        id: number;
+        name: string;
+        email: string;
+        message: string;
+        createdAt: string;
+      }>;
+    },
   });
 
   return (
@@ -151,6 +175,73 @@ export default function PersonalSpace() {
               />
             </TabsContent>
           </Tabs>
+
+          {/* Contact Messages Section */}
+          <motion.div
+            className="mb-12"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-white flex items-center gap-2">
+                <MessageSquare className="text-cyan-400" />
+                Contact Form Submissions
+              </h2>
+              <Badge variant="secondary" className="bg-cyan-500/20 text-cyan-400 border-cyan-500/30">
+                {contactMessages.length} Messages
+              </Badge>
+            </div>
+
+            {isLoading ? (
+              <div className="text-center text-white/60 py-12">Loading messages...</div>
+            ) : contactMessages.length === 0 ? (
+              <Card className="bg-gray-900/50 border-cyan-500/20">
+                <CardContent className="py-12 text-center text-white/60">
+                  No contact messages yet
+                </CardContent>
+              </Card>
+            ) : (
+              <div className="grid gap-4">
+                {contactMessages.map((msg, index) => (
+                  <motion.div
+                    key={msg.id}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Card className="bg-gray-900/50 border-cyan-500/20 hover:border-cyan-500/40 transition-all">
+                      <CardHeader>
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <CardTitle className="text-white flex items-center gap-2 mb-2">
+                              <User className="text-cyan-400" size={18} />
+                              {msg.name}
+                            </CardTitle>
+                            <CardDescription className="flex items-center gap-4">
+                              <span className="flex items-center gap-1">
+                                <Mail className="text-purple-400" size={14} />
+                                {msg.email}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Clock className="text-purple-400" size={14} />
+                                {new Date(msg.createdAt).toLocaleString()}
+                              </span>
+                            </CardDescription>
+                          </div>
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700/50">
+                          <p className="text-white/80 whitespace-pre-wrap">{msg.message}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </motion.div>
         </div>
       </div>
     </>
