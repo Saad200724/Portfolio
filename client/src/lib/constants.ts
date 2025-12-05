@@ -6,7 +6,7 @@ export const DEVELOPER_INFO = {
   subtitle: "Fullstack Web Developer", 
   learning: "AI/ML Student",
   tagline: "I build performant systems, responsive web apps, and I'm diving deep into data. Ready to bring your ideas to life with clean code and stunning interfaces.",
-  bio: "With 2.5+ years of coding experience, I've completed 15+ projects ranging from backend APIs to responsive web applications. As an MIT aspirant, I'm expanding into AI/ML and data science to build intelligent solutions.",
+  bio: "I am Saad Bin Tofayel (Tahsin) with 2.5+ years of coding experience. I've completed 15+ projects ranging from backend APIs to responsive web applications. As an MIT aspirant, I'm expanding into AI/ML and data science to build intelligent solutions.",
   passion: "I'm passionate about clean code and creating digital experiences users love. My AI/ML journey is driven by curiosity to solve real problems. When not coding, I explore new technologies and experiment with machine learning models.",
   email: "saadbintofayeltahsin@gmail.com",
   location: "Dhaka, Bangladesh",
