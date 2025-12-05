@@ -424,11 +424,11 @@ export default function Home() {
                     >
                       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       {blog.imageUrl && (
-                        <div className="h-40 overflow-hidden">
+                        <div className="h-40 overflow-hidden bg-black/20">
                           <img 
                             src={blog.imageUrl} 
                             alt={blog.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
                           />
                         </div>
                       )}
