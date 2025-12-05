@@ -1,7 +1,14 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Rocket, Award, Calendar, Building } from "lucide-react";
+import { Rocket, Award, Calendar, Building, X } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 interface Eca {
   id: number;
@@ -18,6 +25,8 @@ export default function ECA() {
   const { data: ecas = [], isLoading } = useQuery<Eca[]>({
     queryKey: ["/api/ecas"],
   });
+  
+  const [selectedEca, setSelectedEca] = useState<Eca | null>(null);
 
   return (
     <>
@@ -89,11 +98,12 @@ export default function ECA() {
                   return (
                     <motion.div
                       key={eca.id}
-                      className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-purple-500/50 transition-all duration-500"
+                      className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-purple-500/50 transition-all duration-500 cursor-pointer"
                       initial={{ opacity: 0, y: 50 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
                       data-testid={`card-eca-${eca.id}`}
+                      onClick={() => setSelectedEca(eca)}
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 to-cyan-600/0 group-hover:from-purple-600/10 group-hover:to-cyan-600/10 transition-all duration-500" />
                       
@@ -149,6 +159,54 @@ export default function ECA() {
           </div>
         </div>
       </div>
+
+      <Dialog open={!!selectedEca} onOpenChange={(open) => !open && setSelectedEca(null)}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gradient-to-br from-slate-900 to-slate-800 border-purple-500/30">
+          {selectedEca && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-poppins font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent" data-testid="modal-eca-title">
+                  {selectedEca.title}
+                </DialogTitle>
+              </DialogHeader>
+              
+              <div className="space-y-6">
+                {selectedEca.imageUrl && (
+                  <div className="w-full flex justify-center">
+                    <img 
+                      src={selectedEca.imageUrl} 
+                      alt={selectedEca.title}
+                      className="max-w-full h-auto max-h-96 object-contain rounded-xl"
+                      data-testid="modal-eca-image"
+                    />
+                  </div>
+                )}
+                
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex items-center gap-2 text-white/70">
+                    <Building size={18} />
+                    <span data-testid="modal-eca-org">{selectedEca.organization}</span>
+                  </div>
+                  <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/30 to-cyan-600/30 rounded-full text-sm font-semibold text-purple-300 border border-purple-500/30" data-testid="modal-eca-role">
+                    {selectedEca.role}
+                  </span>
+                  <div className="flex items-center gap-2 text-white/60 text-sm">
+                    <Calendar size={16} />
+                    <span data-testid="modal-eca-date">{selectedEca.startDate} - {selectedEca.endDate || "Present"}</span>
+                  </div>
+                </div>
+                
+                <div className="border-t border-white/10 pt-4">
+                  <h4 className="text-lg font-semibold text-white mb-3">Description</h4>
+                  <p className="text-white/80 leading-relaxed whitespace-pre-wrap" data-testid="modal-eca-description">
+                    {selectedEca.description}
+                  </p>
+                </div>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
