@@ -8,24 +8,23 @@ interface SEOProps {
   url?: string;
 }
 
-const SITE_URL = "https://tahsin.cloud";
-
-export default function SEO({ 
+export default function SEO({
   title = "Saad Bin Tofayel Tahsin | PhantomsByte - Python Developer & Fullstack Engineer",
   description = "Saad Bin Tofayel Tahsin (PhantomsByte) - Professional Python developer and fullstack engineer with 2.5+ years experience. Founder of ZnForge, PixBella & Velloz. Expert in React, Node.js, AI/ML. Available for freelance projects.",
   keywords = "Saad Bin Tofayel Tahsin, PhantomsByte, Tahsin, python developer, fullstack engineer, ZnForge, PixBella, Velloz, react developer, node.js, AI ML, data science, freelancer, bangladesh developer, web development, Dhaka",
   image = "/og-image.jpg",
   url = "/"
 }: SEOProps) {
-  const fullUrl = `${SITE_URL}${url}`;
-  const fullImageUrl = `${SITE_URL}${image}`;
+  const siteUrl = "https://saadtahsin.com";
+  const fullUrl = `${siteUrl}${url}`;
+  const fullImageUrl = `${siteUrl}${image}`;
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Saad Bin Tofayel Tahsin",
     "alternateName": ["Tahsin", "Saad Tahsin", "PhantomsByte"],
-    "url": SITE_URL,
+    "url": siteUrl,
     "image": fullImageUrl,
     "description": description,
     "jobTitle": "Python Developer & Fullstack Engineer",
@@ -125,7 +124,7 @@ export default function SEO({
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <meta name="author" content="Saad Bin Tofayel Tahsin" />
-      
+
       {/* Open Graph */}
       <meta property="og:type" content="website" />
       <meta property="og:title" content={title} />
@@ -134,14 +133,14 @@ export default function SEO({
       <meta property="og:url" content={fullUrl} />
       <meta property="og:site_name" content="Saad Bin Tofayel Tahsin" />
       <meta property="og:locale" content="en_US" />
-      
+
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
       <meta name="twitter:creator" content="@saadbintahsin" />
-      
+
       {/* Additional SEO */}
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       <meta name="googlebot" content="index, follow" />
@@ -150,7 +149,7 @@ export default function SEO({
       <meta name="geo.region" content="BD-13" />
       <meta name="geo.placename" content="Dhaka" />
       <link rel="canonical" href={fullUrl} />
-      
+
       {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}

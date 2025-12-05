@@ -427,8 +427,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/about", async (req, res) => {
     try {
       const info = await storage.getAboutInfo();
-      res.json(info || null);
+      res.json(info || {});
     } catch (error) {
+      console.error("Error fetching about info:", error);
       res.status(500).json({ success: false, message: "Failed to fetch about info" });
     }
   });
@@ -465,6 +466,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const experienceList = await storage.getAllExperiences();
       res.json(experienceList);
     } catch (error) {
+      console.error("Error fetching experiences:", error);
       res.status(500).json({ success: false, message: "Failed to fetch experiences" });
     }
   });

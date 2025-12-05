@@ -25,7 +25,7 @@ export default function ECA() {
   const { data: ecas = [], isLoading } = useQuery<Eca[]>({
     queryKey: ["/api/ecas"],
   });
-  
+
   const [selectedEca, setSelectedEca] = useState<Eca | null>(null);
 
   return (
@@ -38,7 +38,7 @@ export default function ECA() {
       <div className="pt-32 pb-20 relative overflow-hidden min-h-screen">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(14,165,233,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -106,7 +106,7 @@ export default function ECA() {
                       onClick={() => setSelectedEca(eca)}
                     >
                       <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 to-cyan-600/0 group-hover:from-purple-600/10 group-hover:to-cyan-600/10 transition-all duration-500" />
-                      
+
                       <div className={`relative flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-0`}>
                         {eca.imageUrl && (
                           <div className="md:w-auto flex-shrink-0">
@@ -118,7 +118,7 @@ export default function ECA() {
                             />
                           </div>
                         )}
-                        
+
                         <div className={`flex-1 p-6 flex flex-col justify-center ${!eca.imageUrl ? 'md:w-full' : ''}`}>
                           <div className="flex items-start gap-4 mb-4">
                             <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
@@ -134,21 +134,21 @@ export default function ECA() {
                               </div>
                             </div>
                           </div>
-                          
+
                           <div className="mb-4">
                             <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/30 to-cyan-600/30 rounded-full text-sm font-semibold text-purple-300 border border-purple-500/30" data-testid={`badge-eca-role-${eca.id}`}>
                               {eca.role}
                             </span>
                           </div>
-                          
+
                           <p className="text-white/70 mb-2 line-clamp-2" data-testid={`text-eca-desc-${eca.id}`}>
                             {eca.description}
                           </p>
-                          
+
                           <span className="text-cyan-400 text-sm font-medium group-hover:text-purple-300 transition-colors duration-300 flex items-center gap-1 mb-4">
                             Click for more <ChevronRight size={14} />
                           </span>
-                          
+
                           <div className="flex items-center gap-2 text-white/50 text-sm">
                             <Calendar size={14} />
                             <span data-testid={`text-eca-date-${eca.id}`}>{eca.startDate} - {eca.endDate || "Present"}</span>
@@ -173,7 +173,7 @@ export default function ECA() {
                   {selectedEca.title}
                 </DialogTitle>
               </DialogHeader>
-              
+
               <div className="space-y-6">
                 {selectedEca.imageUrl && (
                   <div className="w-full flex justify-center">
@@ -185,7 +185,7 @@ export default function ECA() {
                     />
                   </div>
                 )}
-                
+
                 <div className="flex flex-wrap items-center gap-4">
                   <div className="flex items-center gap-2 text-white/70">
                     <Building size={18} />
@@ -199,7 +199,7 @@ export default function ECA() {
                     <span data-testid="modal-eca-date">{selectedEca.startDate} - {selectedEca.endDate || "Present"}</span>
                   </div>
                 </div>
-                
+
                 <div className="border-t border-white/10 pt-4">
                   <h4 className="text-lg font-semibold text-white mb-3">Description</h4>
                   <p className="text-white/80 leading-relaxed whitespace-pre-wrap" data-testid="modal-eca-description">

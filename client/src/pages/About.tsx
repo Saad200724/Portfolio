@@ -30,7 +30,7 @@ export default function About() {
     queryKey: ["/api/experiences"],
   });
 
-  const aboutInfo = dbAboutInfo || {
+  const aboutInfo = (dbAboutInfo && Object.keys(dbAboutInfo).length > 0) ? dbAboutInfo : {
     bio: DEVELOPER_INFO.bio,
     passion: DEVELOPER_INFO.passion,
     yearsExperience: "2.5+",
@@ -38,7 +38,7 @@ export default function About() {
     aspirationLabel: "MIT"
   };
 
-  const experiences = dbExperiences.length > 0 ? dbExperiences : EXPERIENCES;
+  const experiences = (dbExperiences && dbExperiences.length > 0) ? dbExperiences : EXPERIENCES;
   const tools = [
     { 
       category: "Languages", 

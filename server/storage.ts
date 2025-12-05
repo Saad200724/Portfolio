@@ -29,7 +29,7 @@ import {
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { eq } from "drizzle-orm";
+import { eq, asc } from "drizzle-orm";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
@@ -224,7 +224,12 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getAllExperiences(): Promise<Experience[]> {
-    return await db.select().from(experiences).orderBy(experiences.order);
+    try {
+      return await db.select().from(experiences).orderBy(asc(experiences.order));
+    } catch (error) {
+      console.error("Error in getAllExperiences:", error);
+      return await db.select().from(experiences);
+    }
   }
 
   async createExperience(experience: InsertExperience): Promise<Experience> {

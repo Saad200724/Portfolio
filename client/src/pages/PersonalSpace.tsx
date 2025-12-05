@@ -132,11 +132,11 @@ export default function PersonalSpace() {
     queryKey: ["/api/blogs"],
   });
 
-  const { data: aboutInfo = [], isLoading: aboutLoading } = useQuery<AboutInfo[]>({
+  const { data: aboutInfo = [] } = useQuery<AboutInfo[]>({
     queryKey: ["/api/about"],
   });
 
-  const { data: experiences = [], isLoading: experiencesLoading } = useQuery<Experience[]>({
+  const { data: experiences = [] } = useQuery<Experience[]>({
     queryKey: ["/api/experiences"],
   });
 
@@ -1243,23 +1243,23 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
   
   const [aboutForm, setAboutForm] = useState({
     id: 0,
-    title: "",
-    description: "",
-    imageUrl: ""
+    bio: "",
+    passion: "",
+    yearsExperience: "",
+    projectsCompleted: "",
+    aspirationLabel: ""
   });
 
   const [experienceForm, setExperienceForm] = useState({
     id: 0,
-    title: "",
-    company: "",
     role: "",
+    duration: "",
     description: "",
-    startDate: "",
-    endDate: ""
+    order: 0
   });
 
   useEffect(() => {
-    if (aboutInfo && aboutInfo.length > 0) {
+    if (aboutInfo && Array.isArray(aboutInfo) && aboutInfo.length > 0) {
       setAboutForm(aboutInfo[0]);
     }
   }, [aboutInfo]);
@@ -1353,15 +1353,10 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
 
   const handleExperienceSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const data = {
-      ...experienceForm,
-      endDate: experienceForm.endDate || null,
-    };
     if (experienceForm.id) {
-      updateExperienceMutation.mutate(data as Experience);
+      updateExperienceMutation.mutate(experienceForm as Experience);
     } else {
-      // Remove id before creating
-      const { id, ...createData } = data;
+      const { id, ...createData } = experienceForm;
       createExperienceMutation.mutate(createData);
     }
   };
@@ -1372,7 +1367,7 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
   };
 
   const handleAddExperience = () => {
-    setExperienceForm({ id: 0, title: "", company: "", role: "", description: "", startDate: "", endDate: "" });
+    setExperienceForm({ id: 0, role: "", duration: "", description: "", order: 0 });
     setIsEditingExperience(true);
   };
 
@@ -1389,29 +1384,52 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
           {isEditingAbout ? (
             <form onSubmit={handleAboutSubmit} className="space-y-4">
               <div>
-                <label className="text-sm text-white/70 mb-1 block">Title</label>
-                <Input 
-                  value={aboutForm.title}
-                  onChange={(e) => setAboutForm({ ...aboutForm, title: e.target.value })}
-                  className="bg-white/5 border-white/10"
-                  required
-                />
-              </div>
-              <div>
-                <label className="text-sm text-white/70 mb-1 block">Description</label>
+                <label className="text-sm text-white/70 mb-1 block">Bio</label>
                 <Textarea 
-                  value={aboutForm.description}
-                  onChange={(e) => setAboutForm({ ...aboutForm, description: e.target.value })}
-                  className="bg-white/5 border-white/10 min-h-[150px]"
+                  value={aboutForm.bio}
+                  onChange={(e) => setAboutForm({ ...aboutForm, bio: e.target.value })}
+                  className="bg-white/5 border-white/10 min-h-[100px]"
                   required
                 />
               </div>
               <div>
-                <label className="text-sm text-white/70 mb-1 block">Image URL</label>
+                <label className="text-sm text-white/70 mb-1 block">Passion</label>
+                <Textarea 
+                  value={aboutForm.passion}
+                  onChange={(e) => setAboutForm({ ...aboutForm, passion: e.target.value })}
+                  className="bg-white/5 border-white/10 min-h-[100px]"
+                  required
+                />
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Years Experience</label>
+                  <Input 
+                    value={aboutForm.yearsExperience}
+                    onChange={(e) => setAboutForm({ ...aboutForm, yearsExperience: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    placeholder="2.5+"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Projects Completed</label>
+                  <Input 
+                    value={aboutForm.projectsCompleted}
+                    onChange={(e) => setAboutForm({ ...aboutForm, projectsCompleted: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    placeholder="15+"
+                    required
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Aspiration Label</label>
                 <Input 
-                  value={aboutForm.imageUrl}
-                  onChange={(e) => setAboutForm({ ...aboutForm, imageUrl: e.target.value })}
+                  value={aboutForm.aspirationLabel}
+                  onChange={(e) => setAboutForm({ ...aboutForm, aspirationLabel: e.target.value })}
                   className="bg-white/5 border-white/10"
+                  placeholder="MIT"
                   required
                 />
               </div>
@@ -1421,13 +1439,30 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
               </Button>
             </form>
           ) : (
-            aboutInfo && aboutInfo.length > 0 ? (
+            aboutInfo && Array.isArray(aboutInfo) && aboutInfo.length > 0 ? (
               <div className="space-y-4">
-                <h2 className="text-2xl font-bold text-white">{aboutInfo[0].title}</h2>
-                <p className="text-white/70 leading-relaxed">{aboutInfo[0].description}</p>
-                {aboutInfo[0].imageUrl && (
-                  <img src={aboutInfo[0].imageUrl} alt="About" className="max-w-xs rounded-lg border border-white/10" />
-                )}
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Bio</h3>
+                  <p className="text-white/70 leading-relaxed">{aboutInfo[0].bio}</p>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-white mb-2">Passion</h3>
+                  <p className="text-white/70 leading-relaxed">{aboutInfo[0].passion}</p>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div>
+                    <h4 className="text-sm text-white/50 mb-1">Experience</h4>
+                    <p className="text-white font-semibold">{aboutInfo[0].yearsExperience} Years</p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm text-white/50 mb-1">Projects</h4>
+                    <p className="text-white font-semibold">{aboutInfo[0].projectsCompleted} Completed</p>
+                  </div>
+                  <div>
+                    <h4 className="text-sm text-white/50 mb-1">Aspiration</h4>
+                    <p className="text-white font-semibold">{aboutInfo[0].aspirationLabel}</p>
+                  </div>
+                </div>
               </div>
             ) : (
               <p className="text-white/50 text-center py-8">No about information available. Click 'Edit' to add it.</p>
@@ -1442,7 +1477,7 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
           <Dialog open={isEditingExperience} onOpenChange={(open) => {
             setIsEditingExperience(open);
             if (!open) {
-              setExperienceForm({ id: 0, title: "", company: "", role: "", description: "", startDate: "", endDate: "" });
+              setExperienceForm({ id: 0, role: "", duration: "", description: "", order: 0 });
             }
           }}>
             <DialogTrigger asChild>
@@ -1457,29 +1492,21 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
               </DialogHeader>
               <form onSubmit={handleExperienceSubmit} className="space-y-4 mt-4">
                 <div>
-                  <label className="text-sm text-white/70 mb-1 block">Title</label>
-                  <Input 
-                    value={experienceForm.title}
-                    onChange={(e) => setExperienceForm({ ...experienceForm, title: e.target.value })}
-                    className="bg-white/5 border-white/10"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-sm text-white/70 mb-1 block">Company</label>
-                  <Input 
-                    value={experienceForm.company}
-                    onChange={(e) => setExperienceForm({ ...experienceForm, company: e.target.value })}
-                    className="bg-white/5 border-white/10"
-                    required
-                  />
-                </div>
-                <div>
                   <label className="text-sm text-white/70 mb-1 block">Role</label>
                   <Input 
                     value={experienceForm.role}
                     onChange={(e) => setExperienceForm({ ...experienceForm, role: e.target.value })}
                     className="bg-white/5 border-white/10"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Duration</label>
+                  <Input 
+                    value={experienceForm.duration}
+                    onChange={(e) => setExperienceForm({ ...experienceForm, duration: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    placeholder="e.g., 2.5+ Years"
                     required
                   />
                 </div>
@@ -1492,26 +1519,16 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
                     required
                   />
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm text-white/70 mb-1 block">Start Date</label>
-                    <Input 
-                      value={experienceForm.startDate}
-                      onChange={(e) => setExperienceForm({ ...experienceForm, startDate: e.target.value })}
-                      className="bg-white/5 border-white/10"
-                      placeholder="e.g., Jan 2023"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="text-sm text-white/70 mb-1 block">End Date (optional)</label>
-                    <Input 
-                      value={experienceForm.endDate}
-                      onChange={(e) => setExperienceForm({ ...experienceForm, endDate: e.target.value })}
-                      className="bg-white/5 border-white/10"
-                      placeholder="e.g., Present"
-                    />
-                  </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Order</label>
+                  <Input 
+                    type="number"
+                    value={experienceForm.order}
+                    onChange={(e) => setExperienceForm({ ...experienceForm, order: parseInt(e.target.value) || 0 })}
+                    className="bg-white/5 border-white/10"
+                    placeholder="0"
+                    required
+                  />
                 </div>
                 <div className="flex gap-3 pt-4">
                   <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600">
@@ -1527,18 +1544,16 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
           </Dialog>
         </CardHeader>
         <CardContent>
-          {experiencesLoading ? (
-            <p className="text-white/50 text-center py-8">Loading experiences...</p>
-          ) : experiences.length === 0 ? (
+          {experiences.length === 0 ? (
             <p className="text-white/50 text-center py-8">No work experiences yet. Add your first experience!</p>
           ) : (
             <div className="space-y-4">
               {experiences.map((experience) => (
                 <div key={experience.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
                   <div className="flex-1">
-                    <h3 className="font-semibold text-white">{experience.title}</h3>
-                    <p className="text-sm text-white/60 mt-1">{experience.role} at {experience.company}</p>
-                    <p className="text-xs text-white/40 mt-1">{experience.startDate} - {experience.endDate || "Present"}</p>
+                    <h3 className="font-semibold text-white">{experience.role}</h3>
+                    <p className="text-sm text-white/60 mt-1">{experience.duration}</p>
+                    <p className="text-xs text-white/70 mt-1">{experience.description}</p>
                   </div>
                   <div className="flex gap-2">
                     <Button size="sm" variant="outline" onClick={() => handleEditExperience(experience)} className="border-white/10">
