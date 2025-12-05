@@ -13,6 +13,7 @@ import {
 import { z } from "zod";
 import { exec } from "child_process";
 import { promisify } from "util";
+import { generateResume } from "./resume-generator";
 
 const execAsync = promisify(exec);
 
@@ -21,7 +22,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertContactMessageSchema.parse(req.body);
       const message = await storage.createContactMessage(validatedData);
-      
+
       try {
         const emailCommand = `python3 -c "
 import sys
@@ -33,12 +34,12 @@ message_text = '''${validatedData.message.replace(/'/g, "\\'")}'''
 send_contact_email(name, email, message_text)
 send_confirmation_email(name, email)
 "`;
-        
+
         await execAsync(emailCommand);
       } catch (emailError) {
         console.log("Email sending failed:", emailError);
       }
-      
+
       res.json({ success: true, id: message.id });
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -403,7 +404,7 @@ send_confirmation_email(name, email)
   app.post("/api/update-password", async (req, res) => {
     try {
       const { currentPassword, newPassword } = req.body;
-      
+
       if (!currentPassword || !newPassword) {
         return res.status(400).json({ 
           success: false, 
@@ -412,7 +413,7 @@ send_confirmation_email(name, email)
       }
 
       const storedPassword = process.env.ADMIN_PASSWORD || "Saad1234";
-      
+
       if (currentPassword !== storedPassword) {
         return res.status(401).json({ 
           success: false, 
@@ -421,7 +422,7 @@ send_confirmation_email(name, email)
       }
 
       process.env.ADMIN_PASSWORD = newPassword;
-      
+
       res.json({ 
         success: true, 
         message: "Password updated successfully. Note: This change is temporary and will reset on server restart." 
@@ -431,6 +432,20 @@ send_confirmation_email(name, email)
         success: false, 
         message: "Failed to update password" 
       });
+    }
+  });
+
+  app.get("/api/resume", async (req, res) => {
+    try {
+      const resumeBuffer = await generateResume();
+
+      res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      res.setHeader('Content-Disposition', 'attachment; filename="Saad_Tahsin_Resume.docx"');
+
+      res.send(resumeBuffer);
+    } catch (error) {
+      console.error("Error generating resume:", error);
+      res.status(500).json({ message: "Failed to generate resume" });
     }
   });
 

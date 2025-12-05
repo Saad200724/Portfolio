@@ -26,13 +26,21 @@ export default function Home() {
   const { data: blogs = [] } = useQuery<Blog[]>({
     queryKey: ["/api/blogs"],
   });
-  const handleDownloadResume = () => {
-    const link = document.createElement('a');
-    link.href = '#';
-    link.download = 'Saad_Tahsin_Resume.pdf';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+  const handleDownloadResume = async () => {
+    try {
+      const response = await fetch('/api/resume');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Saad_Tahsin_Resume.docx';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download resume:', error);
+    }
   };
 
   return (
