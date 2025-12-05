@@ -77,9 +77,9 @@ export default function Projects() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <span className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent flex items-center gap-2">
-                  <FolderKanban size={16} />
-                  Showcase
+                <span className="text-sm font-semibold flex items-center gap-2">
+                  <FolderKanban size={16} className="text-cyan-400" />
+                  <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Showcase</span>
                 </span>
               </motion.div>
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-poppins font-bold mb-6">

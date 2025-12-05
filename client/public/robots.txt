@@ -1,30 +1,87 @@
+# Robots.txt for tahsin.cloud
+# Saad Bin Tofayel Tahsin - Python Developer & Fullstack Engineer Portfolio
 
-# Allow all search engines to crawl the site
+# Allow all search engines full access to public content
 User-agent: *
 Allow: /
+Allow: /about
+Allow: /skills
+Allow: /projects
+Allow: /eca
+Allow: /contact
+Allow: /blog
 Disallow: /api/
 Disallow: /admin/
 Disallow: /login
 Disallow: /personal-space
 
-# Specific rules for major search engines
+# Google Bot - Full access for indexing
 User-agent: Googlebot
 Allow: /
-Disallow: /api/
+Crawl-delay: 1
 
+# Google Image Bot - Allow all images
 User-agent: Googlebot-Image
 Allow: /
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
 
+# Bing Bot
 User-agent: bingbot
 Allow: /
-Disallow: /api/
-
-User-agent: Yahoo! Slurp
-Allow: /
-Disallow: /api/
-
-# Crawl delay for polite bots
 Crawl-delay: 1
+
+# Yahoo Bot
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1
+
+# DuckDuckGo Bot
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1
+
+# Yandex Bot
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 2
+
+# Baidu Bot
+User-agent: Baiduspider
+Allow: /
+Crawl-delay: 2
+
+# Facebook Crawler for Open Graph
+User-agent: facebookexternalhit
+Allow: /
+
+# Twitter Crawler for Twitter Cards
+User-agent: Twitterbot
+Allow: /
+
+# LinkedIn Crawler
+User-agent: LinkedInBot
+Allow: /
+
+# Pinterest Crawler
+User-agent: Pinterest
+Allow: /
+
+# Block bad bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
 
 # Sitemap location
 Sitemap: https://tahsin.cloud/sitemap.xml
+
+# Host directive
+Host: https://tahsin.cloud
