@@ -83,7 +83,7 @@ export default function ECA() {
                 </p>
               </motion.div>
             ) : (
-              <div className="flex flex-col gap-12">
+              <div className="flex flex-col gap-8">
                 {ecas.map((eca, index) => {
                   const isEven = index % 2 === 0;
                   return (
@@ -103,13 +103,13 @@ export default function ECA() {
                             <img 
                               src={eca.imageUrl} 
                               alt={eca.title}
-                              className="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
                               data-testid={`img-eca-${eca.id}`}
                             />
                           </div>
                         )}
                         
-                        <div className={`flex-1 p-8 flex flex-col justify-center ${!eca.imageUrl ? 'md:w-full' : ''}`}>
+                        <div className={`flex-1 p-6 flex flex-col justify-center ${!eca.imageUrl ? 'md:w-full' : ''}`}>
                           <div className="flex items-start gap-4 mb-4">
                             <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
                               <Award className="text-white" size={24} />
