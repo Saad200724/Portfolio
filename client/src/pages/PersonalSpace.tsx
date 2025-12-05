@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from "@/hooks/use-toast";
 import { useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface Project {
   id: number;
@@ -736,41 +737,47 @@ function MessagesPanel({ contactMessages, isLoading }: {
             <p className="text-white/30 text-sm mt-2">Messages from your contact form will appear here</p>
           </div>
         ) : (
-          <div className="space-y-4">
+          <Accordion type="single" collapsible className="space-y-4">
             {contactMessages.map((msg, index) => (
               <motion.div
                 key={msg.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
-                className="p-6 bg-white/5 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                      <User className="text-white" size={20} />
-                    </div>
-                    <div>
-                      <h3 className="text-white font-semibold text-lg">{msg.name}</h3>
-                      <div className="flex items-center gap-4 mt-1">
-                        <span className="flex items-center gap-1 text-white/60 text-sm">
-                          <Mail size={14} />
-                          {msg.email}
-                        </span>
-                        <span className="flex items-center gap-1 text-white/40 text-sm">
-                          <Clock size={14} />
-                          {new Date(msg.createdAt).toLocaleDateString()} at {new Date(msg.createdAt).toLocaleTimeString()}
-                        </span>
+                <AccordionItem 
+                  value={`message-${msg.id}`}
+                  className="bg-white/5 rounded-xl border border-white/10 hover:border-cyan-500/30 transition-all duration-300 overflow-hidden"
+                >
+                  <AccordionTrigger className="px-6 py-4 hover:no-underline">
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-full flex items-center justify-center shadow-lg flex-shrink-0">
+                        <User className="text-white" size={20} />
+                      </div>
+                      <div className="text-left flex-1">
+                        <h3 className="text-white font-semibold text-lg">{msg.name}</h3>
+                        <div className="flex items-center gap-4 mt-1">
+                          <span className="flex items-center gap-1 text-white/60 text-sm">
+                            <Mail size={14} />
+                            {msg.email}
+                          </span>
+                          <span className="flex items-center gap-1 text-white/40 text-sm">
+                            <Clock size={14} />
+                            {new Date(msg.createdAt).toLocaleDateString()} at {new Date(msg.createdAt).toLocaleTimeString()}
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-                <div className="bg-white/5 rounded-lg p-4 border border-white/10">
-                  <p className="text-white/80 whitespace-pre-wrap leading-relaxed">{msg.message}</p>
-                </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="px-6 pb-6">
+                    <div className="bg-white/5 rounded-lg p-4 border border-white/10 mt-2">
+                      <p className="text-white/80 whitespace-pre-wrap leading-relaxed">{msg.message}</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
               </motion.div>
             ))}
-          </div>
+          </Accordion>
         )}
       </CardContent>
     </Card>
