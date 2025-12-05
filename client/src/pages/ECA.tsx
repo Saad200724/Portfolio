@@ -53,9 +53,9 @@ export default function ECA() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <span className="text-sm font-semibold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent flex items-center gap-2">
-                  <Award size={16} />
-                  Extra Curricular Activities
+                <span className="text-sm font-semibold flex items-center gap-2">
+                  <Award size={16} className="text-cyan-400" />
+                  <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">Extra Curricular Activities</span>
                 </span>
               </motion.div>
 
