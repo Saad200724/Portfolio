@@ -2,9 +2,7 @@
 
 ## Overview
 
-This is a personal portfolio website for Saad Bin Tofayel Tahsin (PhantomsByte), a Python developer and fullstack engineer. The application showcases projects, skills, extra-curricular activities, blog posts (linked to Medium), and provides a contact form for potential clients or collaborators. Built as a modern full-stack web application with a focus on beautiful UI/UX, smooth animations, and comprehensive SEO optimization.
-
-**Domain:** https://tahsin.cloud
+This is a personal portfolio website for Saad Bin Tofayel Tahsin, a Python developer and fullstack engineer. The application showcases projects, skills, extra-curricular activities, blog posts (linked to Medium), and provides a contact form for potential clients or collaborators. Built as a modern full-stack web application with a focus on beautiful UI/UX and smooth animations.
 
 ## User Preferences
 

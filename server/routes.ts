@@ -8,57 +8,34 @@ import {
   insertSkillCategorySchema,
   insertSkillSchema,
   insertAdditionalSkillSchema,
-  insertBlogSchema,
-  insertAboutInfoSchema,
-  insertExperienceSchema
+  insertBlogSchema
 } from "@shared/schema";
 import { z } from "zod";
-import { spawn } from "child_process";
+import { exec } from "child_process";
+import { promisify } from "util";
 import { generateResume } from "./resume-generator";
 
-// Security: Safe email sending without shell command injection
-async function sendEmailSafely(name: string, email: string, message: string): Promise<void> {
-  return new Promise((resolve, reject) => {
-    const pythonProcess = spawn('python3', [
-      'server/send_email.py',
-      '--name', name,
-      '--email', email,
-      '--message', message
-    ]);
-    
-    pythonProcess.on('close', (code) => {
-      if (code === 0) {
-        resolve();
-      } else {
-        reject(new Error(`Email process exited with code ${code}`));
-      }
-    });
-    
-    pythonProcess.on('error', (err) => {
-      reject(err);
-    });
-  });
-}
+const execAsync = promisify(exec);
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/contact", async (req, res) => {
     try {
       const validatedData = insertContactMessageSchema.parse(req.body);
-      
-      // Security: Additional input sanitization
-      const sanitizedName = validatedData.name.replace(/[<>'"&]/g, '').substring(0, 100);
-      const sanitizedEmail = validatedData.email.toLowerCase().trim();
-      const sanitizedMessage = validatedData.message.replace(/[<>]/g, '').substring(0, 5000);
-      
-      const message = await storage.createContactMessage({
-        ...validatedData,
-        name: sanitizedName,
-        email: sanitizedEmail,
-        message: sanitizedMessage
-      });
+      const message = await storage.createContactMessage(validatedData);
 
       try {
-        await sendEmailSafely(sanitizedName, sanitizedEmail, sanitizedMessage);
+        const emailCommand = `python3 -c "
+import sys
+sys.path.append('server')
+from email_service import send_contact_email, send_confirmation_email
+name = '${validatedData.name.replace(/'/g, "\\'")}' 
+email = '${validatedData.email}'
+message_text = '''${validatedData.message.replace(/'/g, "\\'")}'''
+send_contact_email(name, email, message_text)
+send_confirmation_email(name, email)
+"`;
+
+        await execAsync(emailCommand);
       } catch (emailError) {
         console.log("Email sending failed:", emailError);
       }
@@ -421,93 +398,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ success: false, message: "Failed to delete blog" });
-    }
-  });
-
-  app.get("/api/about", async (req, res) => {
-    try {
-      const info = await storage.getAboutInfo();
-      res.json(info || {});
-    } catch (error) {
-      console.error("Error fetching about info:", error);
-      res.status(500).json({ success: false, message: "Failed to fetch about info" });
-    }
-  });
-
-  app.post("/api/about", async (req, res) => {
-    try {
-      const validatedData = insertAboutInfoSchema.parse(req.body);
-      const info = await storage.createAboutInfo(validatedData);
-      res.json({ success: true, info });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ success: false, message: "Invalid data", errors: error.errors });
-      } else {
-        res.status(500).json({ success: false, message: "Failed to create about info" });
-      }
-    }
-  });
-
-  app.put("/api/about/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const info = await storage.updateAboutInfo(id, req.body);
-      if (!info) {
-        return res.status(404).json({ success: false, message: "About info not found" });
-      }
-      res.json({ success: true, info });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to update about info" });
-    }
-  });
-
-  app.get("/api/experiences", async (req, res) => {
-    try {
-      const experienceList = await storage.getAllExperiences();
-      res.json(experienceList);
-    } catch (error) {
-      console.error("Error fetching experiences:", error);
-      res.status(500).json({ success: false, message: "Failed to fetch experiences" });
-    }
-  });
-
-  app.post("/api/experiences", async (req, res) => {
-    try {
-      const validatedData = insertExperienceSchema.parse(req.body);
-      const experience = await storage.createExperience(validatedData);
-      res.json({ success: true, experience });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        res.status(400).json({ success: false, message: "Invalid data", errors: error.errors });
-      } else {
-        res.status(500).json({ success: false, message: "Failed to create experience" });
-      }
-    }
-  });
-
-  app.put("/api/experiences/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const experience = await storage.updateExperience(id, req.body);
-      if (!experience) {
-        return res.status(404).json({ success: false, message: "Experience not found" });
-      }
-      res.json({ success: true, experience });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to update experience" });
-    }
-  });
-
-  app.delete("/api/experiences/:id", async (req, res) => {
-    try {
-      const id = parseInt(req.params.id);
-      const deleted = await storage.deleteExperience(id);
-      if (!deleted) {
-        return res.status(404).json({ success: false, message: "Experience not found" });
-      }
-      res.json({ success: true });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to delete experience" });
     }
   });
 

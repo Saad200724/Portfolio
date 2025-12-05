@@ -139,9 +139,9 @@ export default function Contact() {
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <span className="text-sm font-semibold flex items-center gap-2">
-                  <Mail size={16} className="text-purple-400" />
-                  <span className="bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">Get In Touch</span>
+                <span className="text-sm font-semibold bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent flex items-center gap-2">
+                  <Mail size={16} />
+                  Get In Touch
                 </span>
               </motion.div>
               <h1 className="text-5xl sm:text-6xl md:text-7xl font-poppins font-bold mb-6">

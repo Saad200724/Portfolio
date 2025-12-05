@@ -1,35 +1,29 @@
-import {
-  contactMessages,
-  projects,
-  ecas,
-  skillCategories,
-  skills,
+import { 
+  contactMessages, 
+  projects, 
+  ecas, 
+  skillCategories, 
+  skills, 
   additionalSkills,
   blogs,
-  aboutInfo,
-  experiences,
+  type ContactMessage, 
   type InsertContactMessage,
-  type ContactMessage,
-  type InsertProject,
   type Project,
-  type InsertEca,
+  type InsertProject,
   type Eca,
-  type InsertSkillCategory,
+  type InsertEca,
   type SkillCategory,
-  type InsertSkill,
+  type InsertSkillCategory,
   type Skill,
-  type InsertAdditionalSkill,
+  type InsertSkill,
   type AdditionalSkill,
-  type InsertBlog,
+  type InsertAdditionalSkill,
   type Blog,
-  type InsertAboutInfo,
-  type AboutInfo,
-  type InsertExperience,
-  type Experience,
+  type InsertBlog
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { eq, asc } from "drizzle-orm";
+import { eq } from "drizzle-orm";
 
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 const db = drizzle(pool);
@@ -38,49 +32,40 @@ export interface IStorage {
   getContactMessage(id: number): Promise<ContactMessage | undefined>;
   createContactMessage(message: InsertContactMessage): Promise<ContactMessage>;
   getAllContactMessages(): Promise<ContactMessage[]>;
-
+  
   getAllProjects(): Promise<Project[]>;
   getProject(id: number): Promise<Project | undefined>;
   createProject(project: InsertProject): Promise<Project>;
   updateProject(id: number, project: Partial<InsertProject>): Promise<Project | undefined>;
   deleteProject(id: number): Promise<boolean>;
-
+  
   getAllEcas(): Promise<Eca[]>;
   getEca(id: number): Promise<Eca | undefined>;
   createEca(eca: InsertEca): Promise<Eca>;
   updateEca(id: number, eca: Partial<InsertEca>): Promise<Eca | undefined>;
   deleteEca(id: number): Promise<boolean>;
-
+  
   getAllSkillCategories(): Promise<SkillCategory[]>;
   getSkillCategory(id: number): Promise<SkillCategory | undefined>;
   createSkillCategory(category: InsertSkillCategory): Promise<SkillCategory>;
   updateSkillCategory(id: number, category: Partial<InsertSkillCategory>): Promise<SkillCategory | undefined>;
   deleteSkillCategory(id: number): Promise<boolean>;
-
+  
   getAllSkills(): Promise<Skill[]>;
   getSkillsByCategory(categoryId: number): Promise<Skill[]>;
   createSkill(skill: InsertSkill): Promise<Skill>;
   updateSkill(id: number, skill: Partial<InsertSkill>): Promise<Skill | undefined>;
   deleteSkill(id: number): Promise<boolean>;
-
+  
   getAllAdditionalSkills(): Promise<AdditionalSkill[]>;
   createAdditionalSkill(skill: InsertAdditionalSkill): Promise<AdditionalSkill>;
   deleteAdditionalSkill(id: number): Promise<boolean>;
-
+  
   getAllBlogs(): Promise<Blog[]>;
   getBlog(id: number): Promise<Blog | undefined>;
   createBlog(blog: InsertBlog): Promise<Blog>;
   updateBlog(id: number, blog: Partial<InsertBlog>): Promise<Blog | undefined>;
   deleteBlog(id: number): Promise<boolean>;
-
-  getAboutInfo(): Promise<AboutInfo | undefined>;
-  createAboutInfo(info: InsertAboutInfo): Promise<AboutInfo>;
-  updateAboutInfo(id: number, info: Partial<InsertAboutInfo>): Promise<AboutInfo | undefined>;
-
-  getAllExperiences(): Promise<Experience[]>;
-  createExperience(experience: InsertExperience): Promise<Experience>;
-  updateExperience(id: number, experience: Partial<InsertExperience>): Promise<Experience | undefined>;
-  deleteExperience(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -205,45 +190,6 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAdditionalSkill(id: number): Promise<boolean> {
     const result = await db.delete(additionalSkills).where(eq(additionalSkills.id, id)).returning();
-    return result.length > 0;
-  }
-
-  async getAboutInfo(): Promise<AboutInfo | undefined> {
-    const [info] = await db.select().from(aboutInfo).limit(1);
-    return info;
-  }
-
-  async createAboutInfo(info: InsertAboutInfo): Promise<AboutInfo> {
-    const [newInfo] = await db.insert(aboutInfo).values(info).returning();
-    return newInfo;
-  }
-
-  async updateAboutInfo(id: number, info: Partial<InsertAboutInfo>): Promise<AboutInfo | undefined> {
-    const [updated] = await db.update(aboutInfo).set({ ...info, updatedAt: new Date() }).where(eq(aboutInfo.id, id)).returning();
-    return updated;
-  }
-
-  async getAllExperiences(): Promise<Experience[]> {
-    try {
-      return await db.select().from(experiences).orderBy(asc(experiences.order));
-    } catch (error) {
-      console.error("Error in getAllExperiences:", error);
-      return await db.select().from(experiences);
-    }
-  }
-
-  async createExperience(experience: InsertExperience): Promise<Experience> {
-    const [newExperience] = await db.insert(experiences).values(experience).returning();
-    return newExperience;
-  }
-
-  async updateExperience(id: number, experience: Partial<InsertExperience>): Promise<Experience | undefined> {
-    const [updated] = await db.update(experiences).set(experience).where(eq(experiences.id, id)).returning();
-    return updated;
-  }
-
-  async deleteExperience(id: number): Promise<boolean> {
-    const result = await db.delete(experiences).where(eq(experiences.id, id)).returning();
     return result.length > 0;
   }
 

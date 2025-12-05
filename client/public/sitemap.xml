@@ -1,75 +1,48 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
-  
-  <!-- Homepage - Highest Priority -->
   <url>
     <loc>https://tahsin.cloud/</loc>
-    <lastmod>2024-12-05</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://tahsin.cloud/" />
-    <image:image>
-      <image:loc>https://tahsin.cloud/og-image.jpg</image:loc>
-      <image:title>Saad Bin Tofayel Tahsin - Python Developer and Fullstack Engineer Portfolio</image:title>
-      <image:caption>Professional portfolio showcasing Python development, React, Node.js expertise from Dhaka, Bangladesh</image:caption>
-    </image:image>
   </url>
-  
-  <!-- About Page -->
   <url>
     <loc>https://tahsin.cloud/about</loc>
-    <lastmod>2024-12-05</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/about" />
   </url>
-  
-  <!-- Skills Page -->
   <url>
     <loc>https://tahsin.cloud/skills</loc>
-    <lastmod>2024-12-05</lastmod>
-    <changefreq>monthly</changefreq>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/skills" />
   </url>
-  
-  <!-- Projects Portfolio Page -->
   <url>
     <loc>https://tahsin.cloud/projects</loc>
-    <lastmod>2024-12-05</lastmod>
+    <lastmod>2024-02-04</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/projects" />
   </url>
-  
-  <!-- ECA Leadership Page -->
-  <url>
-    <loc>https://tahsin.cloud/eca</loc>
-    <lastmod>2024-12-05</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/eca" />
-  </url>
-  
-  <!-- Contact Page -->
   <url>
     <loc>https://tahsin.cloud/contact</loc>
-    <lastmod>2024-12-05</lastmod>
+    <lastmod>2024-02-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/contact" />
   </url>
-  
-  <!-- Blog Page -->
   <url>
-    <loc>https://tahsin.cloud/blog</loc>
-    <lastmod>2024-12-05</lastmod>
-    <changefreq>weekly</changefreq>
+    <loc>https://tahsin.cloud/eca</loc>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/blog" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/eca" />
   </url>
-
 </urlset>

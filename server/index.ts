@@ -1,58 +1,9 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import helmet from "helmet";
-import rateLimit from "express-rate-limit";
-import compression from "compression";
 
 const app = express();
-
-// Trust proxy for rate limiting behind reverse proxy (Replit)
-app.set('trust proxy', 1);
-
-// Security: Compression for better performance
-app.use(compression());
-
-// Security: Helmet for HTTP security headers
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://replit.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
-      imgSrc: ["'self'", "data:", "https:", "blob:"],
-      connectSrc: ["'self'", "https:", "wss:"],
-      frameSrc: ["'self'"],
-      objectSrc: ["'none'"],
-      upgradeInsecureRequests: [],
-    },
-  },
-  crossOriginEmbedderPolicy: false,
-  crossOriginResourcePolicy: { policy: "cross-origin" },
-}));
-
-// Security: Rate limiting to prevent abuse
-const apiLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: { success: false, message: "Too many requests, please try again later." },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-// Apply rate limiting to API routes
-app.use("/api/", apiLimiter);
-
-// Stricter rate limit for contact form to prevent spam
-const contactLimiter = rateLimit({
-  windowMs: 60 * 60 * 1000, // 1 hour
-  max: 5, // limit each IP to 5 contact submissions per hour
-  message: { success: false, message: "Too many contact submissions, please try again later." },
-});
-app.use("/api/contact", contactLimiter);
-
-app.use(express.json({ limit: '10kb' })); // Limit body size for security
+app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
