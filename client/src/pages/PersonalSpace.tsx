@@ -102,10 +102,6 @@ export default function PersonalSpace() {
     if (!isAuthenticated) {
       setLocation("/login");
     }
-
-    return () => {
-      sessionStorage.removeItem("isAuthenticated");
-    };
   }, [setLocation]);
 
   const { data: projects = [] } = useQuery<Project[]>({
