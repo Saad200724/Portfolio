@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a personal portfolio website for Saad Bin Tofayel Tahsin, a Python developer and fullstack engineer. The application showcases projects, skills, extra-curricular activities, and provides a contact form for potential clients or collaborators. Built as a modern full-stack web application with a focus on beautiful UI/UX and smooth animations.
+This is a personal portfolio website for Saad Bin Tofayel Tahsin, a Python developer and fullstack engineer. The application showcases projects, skills, extra-curricular activities, blog posts (linked to Medium), and provides a contact form for potential clients or collaborators. Built as a modern full-stack web application with a focus on beautiful UI/UX and smooth animations.
 
 ## User Preferences
 
@@ -44,7 +44,8 @@ Preferred communication style: Simple, everyday language.
 **API Design**
 - RESTful endpoints under `/api` prefix
 - Routes defined in `server/routes.ts` and registered via `registerRoutes()`
-- Endpoints for contact messages, projects, ECAs, skills management
+- Endpoints for contact messages, projects, ECAs, skills, and blogs management
+- Blog posts linked to Medium profile (https://medium.com/@saadbintofayeltahsin)
 - Request validation using Zod schemas from shared directory
 
 **Data Layer**
