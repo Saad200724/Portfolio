@@ -408,8 +408,8 @@ export default function Home() {
                     <ArrowRight size={14} />
                   </a>
                 </div>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {blogs.slice(0, 3).map((blog, index) => (
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {blogs.slice(0, 4).map((blog, index) => (
                     <motion.a
                       key={blog.id}
                       href={blog.mediumUrl}
@@ -432,25 +432,25 @@ export default function Home() {
                           />
                         </div>
                       )}
-                      <div className="p-6 relative">
+                      <div className="p-4 relative">
                         {blog.publishedDate && (
                           <span className="text-xs text-cyan-400/80 mb-2 block">{blog.publishedDate}</span>
                         )}
-                        <h4 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
+                        <h4 className="text-base font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
                           {blog.title}
                         </h4>
-                        <p className="text-white/60 text-sm line-clamp-2 mb-4">
+                        <p className="text-white/60 text-sm line-clamp-2 mb-3">
                           {blog.description}
                         </p>
-                        <div className="flex items-center gap-2 text-cyan-400 text-sm">
+                        <div className="flex items-center gap-2 text-cyan-400 text-xs">
                           <span>Read on Medium</span>
-                          <ExternalLink size={14} className="group-hover:translate-x-1 transition-transform" />
+                          <ExternalLink size={12} className="group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </motion.a>
                   ))}
                 </div>
-                {blogs.length > 3 && (
+                {blogs.length > 4 && (
                   <motion.div 
                     className="text-center mt-8"
                     initial={{ opacity: 0 }}
