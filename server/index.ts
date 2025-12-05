@@ -7,6 +7,9 @@ import compression from "compression";
 
 const app = express();
 
+// Trust proxy for rate limiting behind reverse proxy (Replit)
+app.set('trust proxy', 1);
+
 // Security: Compression for better performance
 app.use(compression());
 
