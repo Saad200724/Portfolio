@@ -5,6 +5,7 @@ import {
   skillCategories, 
   skills, 
   additionalSkills,
+  blogs,
   type ContactMessage, 
   type InsertContactMessage,
   type Project,
@@ -16,7 +17,9 @@ import {
   type Skill,
   type InsertSkill,
   type AdditionalSkill,
-  type InsertAdditionalSkill
+  type InsertAdditionalSkill,
+  type Blog,
+  type InsertBlog
 } from "@shared/schema";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
@@ -57,6 +60,12 @@ export interface IStorage {
   getAllAdditionalSkills(): Promise<AdditionalSkill[]>;
   createAdditionalSkill(skill: InsertAdditionalSkill): Promise<AdditionalSkill>;
   deleteAdditionalSkill(id: number): Promise<boolean>;
+  
+  getAllBlogs(): Promise<Blog[]>;
+  getBlog(id: number): Promise<Blog | undefined>;
+  createBlog(blog: InsertBlog): Promise<Blog>;
+  updateBlog(id: number, blog: Partial<InsertBlog>): Promise<Blog | undefined>;
+  deleteBlog(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -181,6 +190,30 @@ export class DatabaseStorage implements IStorage {
 
   async deleteAdditionalSkill(id: number): Promise<boolean> {
     const result = await db.delete(additionalSkills).where(eq(additionalSkills.id, id)).returning();
+    return result.length > 0;
+  }
+
+  async getAllBlogs(): Promise<Blog[]> {
+    return await db.select().from(blogs);
+  }
+
+  async getBlog(id: number): Promise<Blog | undefined> {
+    const [blog] = await db.select().from(blogs).where(eq(blogs.id, id));
+    return blog;
+  }
+
+  async createBlog(blog: InsertBlog): Promise<Blog> {
+    const [newBlog] = await db.insert(blogs).values(blog).returning();
+    return newBlog;
+  }
+
+  async updateBlog(id: number, blog: Partial<InsertBlog>): Promise<Blog | undefined> {
+    const [updated] = await db.update(blogs).set(blog).where(eq(blogs.id, id)).returning();
+    return updated;
+  }
+
+  async deleteBlog(id: number): Promise<boolean> {
+    const result = await db.delete(blogs).where(eq(blogs.id, id)).returning();
     return result.length > 0;
   }
 }

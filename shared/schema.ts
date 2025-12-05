@@ -105,3 +105,21 @@ export const insertAdditionalSkillSchema = createInsertSchema(additionalSkills).
 
 export type InsertAdditionalSkill = z.infer<typeof insertAdditionalSkillSchema>;
 export type AdditionalSkill = typeof additionalSkills.$inferSelect;
+
+export const blogs = pgTable("blogs", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  description: text("description").notNull(),
+  mediumUrl: text("medium_url").notNull(),
+  imageUrl: text("image_url"),
+  publishedDate: text("published_date"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertBlogSchema = createInsertSchema(blogs).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertBlog = z.infer<typeof insertBlogSchema>;
+export type Blog = typeof blogs.$inferSelect;

@@ -7,7 +7,8 @@ import {
   insertEcaSchema,
   insertSkillCategorySchema,
   insertSkillSchema,
-  insertAdditionalSkillSchema
+  insertAdditionalSkillSchema,
+  insertBlogSchema
 } from "@shared/schema";
 import { z } from "zod";
 import { exec } from "child_process";
@@ -329,6 +330,68 @@ send_confirmation_email(name, email)
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ success: false, message: "Failed to delete additional skill" });
+    }
+  });
+
+  app.get("/api/blogs", async (req, res) => {
+    try {
+      const blogList = await storage.getAllBlogs();
+      res.json(blogList);
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to fetch blogs" });
+    }
+  });
+
+  app.get("/api/blogs/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const blog = await storage.getBlog(id);
+      if (!blog) {
+        return res.status(404).json({ success: false, message: "Blog not found" });
+      }
+      res.json(blog);
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to fetch blog" });
+    }
+  });
+
+  app.post("/api/blogs", async (req, res) => {
+    try {
+      const validatedData = insertBlogSchema.parse(req.body);
+      const blog = await storage.createBlog(validatedData);
+      res.json({ success: true, blog });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ success: false, message: "Invalid data", errors: error.errors });
+      } else {
+        res.status(500).json({ success: false, message: "Failed to create blog" });
+      }
+    }
+  });
+
+  app.put("/api/blogs/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const blog = await storage.updateBlog(id, req.body);
+      if (!blog) {
+        return res.status(404).json({ success: false, message: "Blog not found" });
+      }
+      res.json({ success: true, blog });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to update blog" });
+    }
+  });
+
+  app.delete("/api/blogs/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteBlog(id);
+      if (!deleted) {
+        return res.status(404).json({ success: false, message: "Blog not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to delete blog" });
     }
   });
 
