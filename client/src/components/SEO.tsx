@@ -8,23 +8,24 @@ interface SEOProps {
   url?: string;
 }
 
+const SITE_URL = "https://tahsin.cloud";
+
 export default function SEO({ 
-  title = "Saad Bin Tofayel Tahsin - Python Developer & Fullstack Engineer",
-  description = "Experienced Python developer and fullstack engineer with 2.5+ years building scalable systems. Specializing in React, Node.js, and data science. Available for freelance projects.",
-  keywords = "python developer, fullstack engineer, react developer, node.js, data science, freelancer, bangladesh developer, web development",
+  title = "Saad Bin Tofayel Tahsin | PhantomsByte - Python Developer & Fullstack Engineer",
+  description = "Saad Bin Tofayel Tahsin (PhantomsByte) - Professional Python developer and fullstack engineer with 2.5+ years experience. Founder of ZnForge, PixBella & Velloz. Expert in React, Node.js, AI/ML. Available for freelance projects.",
+  keywords = "Saad Bin Tofayel Tahsin, PhantomsByte, Tahsin, python developer, fullstack engineer, ZnForge, PixBella, Velloz, react developer, node.js, AI ML, data science, freelancer, bangladesh developer, web development, Dhaka",
   image = "/og-image.jpg",
   url = "/"
 }: SEOProps) {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
-  const fullUrl = `${siteUrl}${url}`;
-  const fullImageUrl = `${siteUrl}${image}`;
+  const fullUrl = `${SITE_URL}${url}`;
+  const fullImageUrl = `${SITE_URL}${image}`;
 
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Saad Bin Tofayel Tahsin",
     "alternateName": ["Tahsin", "Saad Tahsin", "PhantomsByte"],
-    "url": siteUrl,
+    "url": SITE_URL,
     "image": fullImageUrl,
     "description": description,
     "jobTitle": "Python Developer & Fullstack Engineer",

@@ -11,31 +11,52 @@ import {
   insertBlogSchema
 } from "@shared/schema";
 import { z } from "zod";
-import { exec } from "child_process";
-import { promisify } from "util";
+import { spawn } from "child_process";
 import { generateResume } from "./resume-generator";
 
-const execAsync = promisify(exec);
+// Security: Safe email sending without shell command injection
+async function sendEmailSafely(name: string, email: string, message: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    const pythonProcess = spawn('python3', [
+      'server/send_email.py',
+      '--name', name,
+      '--email', email,
+      '--message', message
+    ]);
+    
+    pythonProcess.on('close', (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Email process exited with code ${code}`));
+      }
+    });
+    
+    pythonProcess.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/contact", async (req, res) => {
     try {
       const validatedData = insertContactMessageSchema.parse(req.body);
-      const message = await storage.createContactMessage(validatedData);
+      
+      // Security: Additional input sanitization
+      const sanitizedName = validatedData.name.replace(/[<>'"&]/g, '').substring(0, 100);
+      const sanitizedEmail = validatedData.email.toLowerCase().trim();
+      const sanitizedMessage = validatedData.message.replace(/[<>]/g, '').substring(0, 5000);
+      
+      const message = await storage.createContactMessage({
+        ...validatedData,
+        name: sanitizedName,
+        email: sanitizedEmail,
+        message: sanitizedMessage
+      });
 
       try {
-        const emailCommand = `python3 -c "
-import sys
-sys.path.append('server')
-from email_service import send_contact_email, send_confirmation_email
-name = '${validatedData.name.replace(/'/g, "\\'")}' 
-email = '${validatedData.email}'
-message_text = '''${validatedData.message.replace(/'/g, "\\'")}'''
-send_contact_email(name, email, message_text)
-send_confirmation_email(name, email)
-"`;
-
-        await execAsync(emailCommand);
+        await sendEmailSafely(sanitizedName, sanitizedEmail, sanitizedMessage);
       } catch (emailError) {
         console.log("Email sending failed:", emailError);
       }
