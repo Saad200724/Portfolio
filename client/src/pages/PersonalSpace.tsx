@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock, Mail, MessageSquare, Clock, User } from "lucide-react";
+import { Settings, Plus, Trash2, Edit, FolderKanban, Award, Zap, X, Save, Lock, Mail, MessageSquare, Clock, User, BookOpen, ExternalLink } from "lucide-react";
 import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -66,6 +66,15 @@ interface ContactMessage {
   createdAt: string;
 }
 
+interface Blog {
+  id: number;
+  title: string;
+  description: string;
+  mediumUrl: string;
+  imageUrl: string | null;
+  publishedDate: string | null;
+}
+
 export default function PersonalSpace() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -100,6 +109,10 @@ export default function PersonalSpace() {
 
   const { data: contactMessages = [], isLoading: messagesLoading } = useQuery<ContactMessage[]>({
     queryKey: ["/api/contact"],
+  });
+
+  const { data: blogs = [] } = useQuery<Blog[]>({
+    queryKey: ["/api/blogs"],
   });
 
   return (
@@ -139,10 +152,14 @@ export default function PersonalSpace() {
           </motion.div>
 
           <Tabs defaultValue="projects" className="w-full max-w-6xl mx-auto">
-            <TabsList className="grid w-full grid-cols-4 mb-8 bg-white/5 border border-white/10 rounded-xl p-1">
+            <TabsList className="grid w-full grid-cols-5 mb-8 bg-white/5 border border-white/10 rounded-xl p-1">
               <TabsTrigger value="projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <FolderKanban className="mr-2" size={18} />
                 Projects
+              </TabsTrigger>
+              <TabsTrigger value="blogs" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
+                <BookOpen className="mr-2" size={18} />
+                Blogs
               </TabsTrigger>
               <TabsTrigger value="ecas" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <Award className="mr-2" size={18} />
@@ -160,6 +177,10 @@ export default function PersonalSpace() {
 
             <TabsContent value="projects">
               <ProjectsPanel projects={projects} queryClient={queryClient} toast={toast} />
+            </TabsContent>
+
+            <TabsContent value="blogs">
+              <BlogsPanel blogs={blogs} queryClient={queryClient} toast={toast} />
             </TabsContent>
 
             <TabsContent value="ecas">
@@ -1167,5 +1188,248 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
         </CardContent>
       </Card>
     </div>
+  );
+}
+
+function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient: any, toast: any }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [editingBlog, setEditingBlog] = useState<Blog | null>(null);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    mediumUrl: "",
+    imageUrl: "",
+    publishedDate: ""
+  });
+
+  const createMutation = useMutation({
+    mutationFn: async (data: any) => {
+      const res = await fetch("/api/blogs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          imageUrl: data.imageUrl || null,
+          publishedDate: data.publishedDate || null
+        })
+      });
+      if (!res.ok) throw new Error("Failed to create blog");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/blogs"] });
+      setIsOpen(false);
+      resetForm();
+      toast({ title: "Blog post added successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to add blog post", variant: "destructive" });
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: number, data: any }) => {
+      const res = await fetch(`/api/blogs/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...data,
+          imageUrl: data.imageUrl || null,
+          publishedDate: data.publishedDate || null
+        })
+      });
+      if (!res.ok) throw new Error("Failed to update blog");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/blogs"] });
+      setIsOpen(false);
+      setEditingBlog(null);
+      resetForm();
+      toast({ title: "Blog post updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update blog post", variant: "destructive" });
+    }
+  });
+
+  const deleteMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/blogs/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete blog");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/blogs"] });
+      toast({ title: "Blog post deleted successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to delete blog post", variant: "destructive" });
+    }
+  });
+
+  const resetForm = () => {
+    setFormData({
+      title: "",
+      description: "",
+      mediumUrl: "",
+      imageUrl: "",
+      publishedDate: ""
+    });
+  };
+
+  const handleEdit = (blog: Blog) => {
+    setEditingBlog(blog);
+    setFormData({
+      title: blog.title,
+      description: blog.description,
+      mediumUrl: blog.mediumUrl,
+      imageUrl: blog.imageUrl || "",
+      publishedDate: blog.publishedDate || ""
+    });
+    setIsOpen(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingBlog) {
+      updateMutation.mutate({ id: editingBlog.id, data: formData });
+    } else {
+      createMutation.mutate(formData);
+    }
+  };
+
+  return (
+    <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+      <CardHeader className="flex flex-row items-center justify-between gap-4">
+        <div>
+          <CardTitle className="text-white">Blog Posts ({blogs.length})</CardTitle>
+          <p className="text-white/60 text-sm mt-1">
+            Add your Medium blog posts to display on the home page
+          </p>
+        </div>
+        <Dialog open={isOpen} onOpenChange={(open) => {
+          setIsOpen(open);
+          if (!open) {
+            setEditingBlog(null);
+            resetForm();
+          }
+        }}>
+          <DialogTrigger asChild>
+            <Button className="bg-gradient-to-r from-purple-600 to-blue-600">
+              <Plus className="mr-2" size={16} />
+              Add Blog Post
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="bg-gray-900 border-white/10 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{editingBlog ? "Edit Blog Post" : "Add Medium Blog Post"}</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Title</label>
+                <Input 
+                  value={formData.title}
+                  onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                  className="bg-white/5 border-white/10"
+                  placeholder="Your blog post title"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Description</label>
+                <Textarea 
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  className="bg-white/5 border-white/10 min-h-[100px]"
+                  placeholder="A short description of your blog post"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Medium URL</label>
+                <Input 
+                  value={formData.mediumUrl}
+                  onChange={(e) => setFormData({ ...formData, mediumUrl: e.target.value })}
+                  className="bg-white/5 border-white/10"
+                  placeholder="https://medium.com/@username/your-article"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Cover Image URL (optional)</label>
+                <Input 
+                  value={formData.imageUrl}
+                  onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                  className="bg-white/5 border-white/10"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Published Date (optional)</label>
+                <Input 
+                  value={formData.publishedDate}
+                  onChange={(e) => setFormData({ ...formData, publishedDate: e.target.value })}
+                  className="bg-white/5 border-white/10"
+                  placeholder="e.g., Dec 2024"
+                />
+              </div>
+              <div className="flex gap-3 pt-4">
+                <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600">
+                  <Save className="mr-2" size={16} />
+                  {editingBlog ? "Update" : "Add Blog Post"}
+                </Button>
+                <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="border-white/10">
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </CardHeader>
+      <CardContent>
+        <div className="mb-4 p-4 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
+          <p className="text-cyan-400 text-sm">
+            Your Medium profile: <a href="https://medium.com/@saadbintofayeltahsin" target="_blank" rel="noopener noreferrer" className="underline hover:text-cyan-300">medium.com/@saadbintofayeltahsin</a>
+          </p>
+        </div>
+        {blogs.length === 0 ? (
+          <p className="text-white/50 text-center py-8">No blog posts yet. Add your first Medium article!</p>
+        ) : (
+          <div className="space-y-4">
+            {blogs.map((blog) => (
+              <div key={blog.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-white">{blog.title}</h3>
+                  <p className="text-sm text-white/60 mt-1 line-clamp-2">{blog.description}</p>
+                  <div className="flex items-center gap-4 mt-2">
+                    {blog.publishedDate && (
+                      <span className="text-xs text-white/40">{blog.publishedDate}</span>
+                    )}
+                    <a 
+                      href={blog.mediumUrl} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                    >
+                      <ExternalLink size={12} />
+                      View on Medium
+                    </a>
+                  </div>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="outline" onClick={() => handleEdit(blog)} className="border-white/10">
+                    <Edit size={16} />
+                  </Button>
+                  <Button size="sm" variant="destructive" onClick={() => deleteMutation.mutate(blog.id)}>
+                    <Trash2 size={16} />
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }
