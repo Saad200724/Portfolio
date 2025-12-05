@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Rocket, Award, Calendar, Building, X } from "lucide-react";
+import { Rocket, Award, Calendar, Building, X, ChevronRight } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 import {
@@ -141,9 +141,13 @@ export default function ECA() {
                             </span>
                           </div>
                           
-                          <p className="text-white/70 mb-4" data-testid={`text-eca-desc-${eca.id}`}>
+                          <p className="text-white/70 mb-2 line-clamp-2" data-testid={`text-eca-desc-${eca.id}`}>
                             {eca.description}
                           </p>
+                          
+                          <span className="text-cyan-400 text-sm font-medium group-hover:text-purple-300 transition-colors duration-300 flex items-center gap-1 mb-4">
+                            Click for more <ChevronRight size={14} />
+                          </span>
                           
                           <div className="flex items-center gap-2 text-white/50 text-sm">
                             <Calendar size={14} />
