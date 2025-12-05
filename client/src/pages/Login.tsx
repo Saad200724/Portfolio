@@ -16,10 +16,14 @@ export default function Login() {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const storedPassword = localStorage.getItem("adminPassword") || "Saad1234";
+    const storedPassword = process.env.ADMIN_PASSWORD || "Saad1234";
     
     if (password === storedPassword) {
       sessionStorage.setItem("isAuthenticated", "true");
+      toast({
+        title: "Login successful",
+        description: "Welcome to Personal Space",
+      });
       setLocation("/personal-space");
     } else {
       toast({

@@ -96,13 +96,20 @@ export default function PersonalSpace() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [, setLocation] = useLocation();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem("isAuthenticated");
-    if (!isAuthenticated) {
+    const authStatus = sessionStorage.getItem("isAuthenticated");
+    if (!authStatus) {
       setLocation("/login");
+    } else {
+      setIsAuthenticated(true);
     }
   }, [setLocation]);
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const { data: projects = [] } = useQuery<Project[]>({
     queryKey: ["/api/projects"],
