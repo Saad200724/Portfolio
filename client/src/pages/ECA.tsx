@@ -83,61 +83,67 @@ export default function ECA() {
                 </p>
               </motion.div>
             ) : (
-              <div className="grid md:grid-cols-2 gap-8">
-                {ecas.map((eca, index) => (
-                  <motion.div
-                    key={eca.id}
-                    className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-purple-500/50 transition-all duration-500"
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
-                    whileHover={{ scale: 1.02, y: -8 }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 to-cyan-600/0 group-hover:from-purple-600/10 group-hover:to-cyan-600/10 transition-all duration-500" />
-                    
-                    <div className="relative">
-                      {eca.imageUrl && (
-                        <div className="mb-6 rounded-2xl overflow-hidden">
-                          <img 
-                            src={eca.imageUrl} 
-                            alt={eca.title}
-                            className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                          />
-                        </div>
-                      )}
+              <div className="flex flex-col gap-12">
+                {ecas.map((eca, index) => {
+                  const isEven = index % 2 === 0;
+                  return (
+                    <motion.div
+                      key={eca.id}
+                      className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl border border-white/10 hover:border-purple-500/50 transition-all duration-500"
+                      initial={{ opacity: 0, y: 50 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: 0.3 + index * 0.15 }}
+                      data-testid={`card-eca-${eca.id}`}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-purple-600/0 to-cyan-600/0 group-hover:from-purple-600/10 group-hover:to-cyan-600/10 transition-all duration-500" />
                       
-                      <div className="flex items-start gap-4 mb-4">
-                        <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
-                          <Award className="text-white" size={24} />
-                        </div>
-                        <div>
-                          <h3 className="text-2xl font-poppins font-bold text-white group-hover:text-purple-300 transition-colors duration-300">
-                            {eca.title}
-                          </h3>
-                          <div className="flex items-center gap-2 mt-1 text-white/60">
-                            <Building size={14} />
-                            <span className="text-sm">{eca.organization}</span>
+                      <div className={`relative flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-0`}>
+                        {eca.imageUrl && (
+                          <div className="md:w-1/2 flex-shrink-0">
+                            <img 
+                              src={eca.imageUrl} 
+                              alt={eca.title}
+                              className="w-full h-64 md:h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              data-testid={`img-eca-${eca.id}`}
+                            />
+                          </div>
+                        )}
+                        
+                        <div className={`flex-1 p-8 flex flex-col justify-center ${!eca.imageUrl ? 'md:w-full' : ''}`}>
+                          <div className="flex items-start gap-4 mb-4">
+                            <div className="w-14 h-14 bg-gradient-to-br from-purple-600 to-cyan-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/30 flex-shrink-0">
+                              <Award className="text-white" size={24} />
+                            </div>
+                            <div>
+                              <h3 className="text-2xl font-poppins font-bold text-white group-hover:text-purple-300 transition-colors duration-300" data-testid={`text-eca-title-${eca.id}`}>
+                                {eca.title}
+                              </h3>
+                              <div className="flex items-center gap-2 mt-1 text-white/60">
+                                <Building size={14} />
+                                <span className="text-sm" data-testid={`text-eca-org-${eca.id}`}>{eca.organization}</span>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="mb-4">
+                            <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/30 to-cyan-600/30 rounded-full text-sm font-semibold text-purple-300 border border-purple-500/30" data-testid={`badge-eca-role-${eca.id}`}>
+                              {eca.role}
+                            </span>
+                          </div>
+                          
+                          <p className="text-white/70 mb-4" data-testid={`text-eca-desc-${eca.id}`}>
+                            {eca.description}
+                          </p>
+                          
+                          <div className="flex items-center gap-2 text-white/50 text-sm">
+                            <Calendar size={14} />
+                            <span data-testid={`text-eca-date-${eca.id}`}>{eca.startDate} - {eca.endDate || "Present"}</span>
                           </div>
                         </div>
                       </div>
-                      
-                      <div className="mb-4">
-                        <span className="inline-block px-4 py-1 bg-gradient-to-r from-purple-600/30 to-cyan-600/30 rounded-full text-sm font-semibold text-purple-300 border border-purple-500/30">
-                          {eca.role}
-                        </span>
-                      </div>
-                      
-                      <p className="text-white/70 mb-4 line-clamp-3">
-                        {eca.description}
-                      </p>
-                      
-                      <div className="flex items-center gap-2 text-white/50 text-sm">
-                        <Calendar size={14} />
-                        <span>{eca.startDate} - {eca.endDate || "Present"}</span>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
+                    </motion.div>
+                  );
+                })}
               </div>
             )}
           </div>
