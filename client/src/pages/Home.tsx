@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { Download, Code, Award, Sparkles, Zap, Rocket, Target } from "lucide-react";
+import { Download, Code, Award, Sparkles, Zap, Rocket, Target, BookOpen, ExternalLink, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
 import { Github, MessageCircle, Briefcase, Facebook } from "lucide-react";
 import SEO from "@/components/SEO";
 import { DEVELOPER_INFO, SOCIAL_LINKS } from "@/lib/constants";
+import { useQuery } from "@tanstack/react-query";
 import {
   HoverCard,
   HoverCardContent,
@@ -12,7 +13,19 @@ import {
 
 const profileImage = "https://avatars.githubusercontent.com/u/156579953?v=4";
 
+interface Blog {
+  id: number;
+  title: string;
+  description: string;
+  mediumUrl: string;
+  imageUrl: string | null;
+  publishedDate: string | null;
+}
+
 export default function Home() {
+  const { data: blogs = [] } = useQuery<Blog[]>({
+    queryKey: ["/api/blogs"],
+  });
   const handleDownloadResume = () => {
     const link = document.createElement('a');
     link.href = '#';
@@ -368,6 +381,96 @@ export default function Home() {
                 ))}
               </div>
             </motion.div>
+
+            {/* Blog Section */}
+            {blogs.length > 0 && (
+              <motion.div 
+                className="mb-16 max-w-5xl mx-auto"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.9 }}
+              >
+                <div className="text-center mb-8">
+                  <h3 className="text-3xl font-poppins font-bold text-white mb-2">
+                    <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent flex items-center justify-center gap-3">
+                      <BookOpen className="text-cyan-400" size={32} />
+                      Latest Blog Posts
+                    </span>
+                  </h3>
+                  <a 
+                    href="https://medium.com/@saadbintofayeltahsin" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-white/60 hover:text-cyan-400 transition-colors text-sm mt-2"
+                    data-testid="link-medium-profile"
+                  >
+                    View all on Medium
+                    <ArrowRight size={14} />
+                  </a>
+                </div>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {blogs.slice(0, 3).map((blog, index) => (
+                    <motion.a
+                      key={blog.id}
+                      href={blog.mediumUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-2xl border border-white/10 hover:border-cyan-500/50 transition-all duration-500"
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 2 + index * 0.1 }}
+                      whileHover={{ scale: 1.02, y: -5 }}
+                      data-testid={`card-blog-${blog.id}`}
+                    >
+                      <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      {blog.imageUrl && (
+                        <div className="h-40 overflow-hidden">
+                          <img 
+                            src={blog.imageUrl} 
+                            alt={blog.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                          />
+                        </div>
+                      )}
+                      <div className="p-6 relative">
+                        {blog.publishedDate && (
+                          <span className="text-xs text-cyan-400/80 mb-2 block">{blog.publishedDate}</span>
+                        )}
+                        <h4 className="text-lg font-semibold text-white mb-2 group-hover:text-cyan-400 transition-colors line-clamp-2">
+                          {blog.title}
+                        </h4>
+                        <p className="text-white/60 text-sm line-clamp-2 mb-4">
+                          {blog.description}
+                        </p>
+                        <div className="flex items-center gap-2 text-cyan-400 text-sm">
+                          <span>Read on Medium</span>
+                          <ExternalLink size={14} className="group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </motion.a>
+                  ))}
+                </div>
+                {blogs.length > 3 && (
+                  <motion.div 
+                    className="text-center mt-8"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 2.4 }}
+                  >
+                    <a 
+                      href="https://medium.com/@saadbintofayeltahsin" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-xl border border-cyan-400/30 text-cyan-300 hover:border-cyan-400/60 transition-all"
+                      data-testid="button-view-all-blogs"
+                    >
+                      View All Blog Posts
+                      <ArrowRight size={16} />
+                    </a>
+                  </motion.div>
+                )}
+              </motion.div>
+            )}
 
             {/* Premium Social Links */}
             <motion.div 

@@ -1316,7 +1316,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
           }
         }}>
           <DialogTrigger asChild>
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600">
+            <Button className="bg-gradient-to-r from-purple-600 to-blue-600" data-testid="button-add-blog">
               <Plus className="mr-2" size={16} />
               Add Blog Post
             </Button>
@@ -1325,7 +1325,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
             <DialogHeader>
               <DialogTitle>{editingBlog ? "Edit Blog Post" : "Add Medium Blog Post"}</DialogTitle>
             </DialogHeader>
-            <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+            <form onSubmit={handleSubmit} className="space-y-4 mt-4" data-testid="form-blog">
               <div>
                 <label className="text-sm text-white/70 mb-1 block">Title</label>
                 <Input 
@@ -1334,6 +1334,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                   className="bg-white/5 border-white/10"
                   placeholder="Your blog post title"
                   required
+                  data-testid="input-blog-title"
                 />
               </div>
               <div>
@@ -1344,6 +1345,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                   className="bg-white/5 border-white/10 min-h-[100px]"
                   placeholder="A short description of your blog post"
                   required
+                  data-testid="input-blog-description"
                 />
               </div>
               <div>
@@ -1354,6 +1356,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                   className="bg-white/5 border-white/10"
                   placeholder="https://medium.com/@username/your-article"
                   required
+                  data-testid="input-blog-medium-url"
                 />
               </div>
               <div>
@@ -1363,6 +1366,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                   onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
                   className="bg-white/5 border-white/10"
                   placeholder="https://example.com/image.jpg"
+                  data-testid="input-blog-image-url"
                 />
               </div>
               <div>
@@ -1372,14 +1376,15 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                   onChange={(e) => setFormData({ ...formData, publishedDate: e.target.value })}
                   className="bg-white/5 border-white/10"
                   placeholder="e.g., Dec 2024"
+                  data-testid="input-blog-published-date"
                 />
               </div>
               <div className="flex gap-3 pt-4">
-                <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600">
+                <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600" data-testid="button-submit-blog">
                   <Save className="mr-2" size={16} />
                   {editingBlog ? "Update" : "Add Blog Post"}
                 </Button>
-                <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="border-white/10">
+                <Button type="button" variant="outline" onClick={() => setIsOpen(false)} className="border-white/10" data-testid="button-cancel-blog">
                   Cancel
                 </Button>
               </div>
@@ -1390,17 +1395,17 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
       <CardContent>
         <div className="mb-4 p-4 bg-cyan-500/10 rounded-lg border border-cyan-500/20">
           <p className="text-cyan-400 text-sm">
-            Your Medium profile: <a href="https://medium.com/@saadbintofayeltahsin" target="_blank" rel="noopener noreferrer" className="underline hover:text-cyan-300">medium.com/@saadbintofayeltahsin</a>
+            Your Medium profile: <a href="https://medium.com/@saadbintofayeltahsin" target="_blank" rel="noopener noreferrer" className="underline hover:text-cyan-300" data-testid="link-medium-profile-admin">medium.com/@saadbintofayeltahsin</a>
           </p>
         </div>
         {blogs.length === 0 ? (
-          <p className="text-white/50 text-center py-8">No blog posts yet. Add your first Medium article!</p>
+          <p className="text-white/50 text-center py-8" data-testid="text-no-blogs">No blog posts yet. Add your first Medium article!</p>
         ) : (
           <div className="space-y-4">
             {blogs.map((blog) => (
-              <div key={blog.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
+              <div key={blog.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10" data-testid={`row-blog-${blog.id}`}>
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white">{blog.title}</h3>
+                  <h3 className="font-semibold text-white" data-testid={`text-blog-title-${blog.id}`}>{blog.title}</h3>
                   <p className="text-sm text-white/60 mt-1 line-clamp-2">{blog.description}</p>
                   <div className="flex items-center gap-4 mt-2">
                     {blog.publishedDate && (
@@ -1411,6 +1416,7 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-xs text-cyan-400 hover:text-cyan-300 flex items-center gap-1"
+                      data-testid={`link-blog-medium-${blog.id}`}
                     >
                       <ExternalLink size={12} />
                       View on Medium
@@ -1418,10 +1424,10 @@ function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient:
                   </div>
                 </div>
                 <div className="flex gap-2">
-                  <Button size="sm" variant="outline" onClick={() => handleEdit(blog)} className="border-white/10">
+                  <Button size="sm" variant="outline" onClick={() => handleEdit(blog)} className="border-white/10" data-testid={`button-edit-blog-${blog.id}`}>
                     <Edit size={16} />
                   </Button>
-                  <Button size="sm" variant="destructive" onClick={() => deleteMutation.mutate(blog.id)}>
+                  <Button size="sm" variant="destructive" onClick={() => deleteMutation.mutate(blog.id)} data-testid={`button-delete-blog-${blog.id}`}>
                     <Trash2 size={16} />
                   </Button>
                 </div>

@@ -372,13 +372,18 @@ send_confirmation_email(name, email)
   app.put("/api/blogs/:id", async (req, res) => {
     try {
       const id = parseInt(req.params.id);
-      const blog = await storage.updateBlog(id, req.body);
+      const validatedData = insertBlogSchema.partial().parse(req.body);
+      const blog = await storage.updateBlog(id, validatedData);
       if (!blog) {
         return res.status(404).json({ success: false, message: "Blog not found" });
       }
       res.json({ success: true, blog });
     } catch (error) {
-      res.status(500).json({ success: false, message: "Failed to update blog" });
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ success: false, message: "Invalid data", errors: error.errors });
+      } else {
+        res.status(500).json({ success: false, message: "Failed to update blog" });
+      }
     }
   });
 
