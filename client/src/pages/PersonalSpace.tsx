@@ -1229,7 +1229,7 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
 
 
 function AboutPanel({ aboutInfo, experiences, queryClient, toast }: { 
-  aboutInfo: AboutInfo[], 
+  aboutInfo: any, 
   experiences: Experience[],
   queryClient: any, 
   toast: any 
@@ -1255,15 +1255,17 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
   });
 
   useEffect(() => {
-    if (aboutInfo && Array.isArray(aboutInfo) && aboutInfo.length > 0) {
-      setAboutForm(aboutInfo[0]);
+    if (aboutInfo && aboutInfo.id) {
+      setAboutForm(aboutInfo);
     }
   }, [aboutInfo]);
 
   const updateAboutMutation = useMutation({
-    mutationFn: async (data: AboutInfo) => {
-      const res = await fetch(`/api/about/${data.id}`, {
-        method: "PUT",
+    mutationFn: async (data: any) => {
+      const method = data.id ? "PUT" : "POST";
+      const url = data.id ? `/api/about/${data.id}` : "/api/about";
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data)
       });
@@ -1435,28 +1437,28 @@ function AboutPanel({ aboutInfo, experiences, queryClient, toast }: {
               </Button>
             </form>
           ) : (
-            aboutInfo && Array.isArray(aboutInfo) && aboutInfo.length > 0 ? (
+            aboutInfo && aboutInfo.id ? (
               <div className="space-y-4">
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">Bio</h3>
-                  <p className="text-white/70 leading-relaxed">{aboutInfo[0].bio}</p>
+                  <p className="text-white/70 leading-relaxed">{aboutInfo.bio}</p>
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">Passion</h3>
-                  <p className="text-white/70 leading-relaxed">{aboutInfo[0].passion}</p>
+                  <p className="text-white/70 leading-relaxed">{aboutInfo.passion}</p>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                   <div>
                     <h4 className="text-sm text-white/50 mb-1">Experience</h4>
-                    <p className="text-white font-semibold">{aboutInfo[0].yearsExperience} Years</p>
+                    <p className="text-white font-semibold">{aboutInfo.yearsExperience} Years</p>
                   </div>
                   <div>
                     <h4 className="text-sm text-white/50 mb-1">Projects</h4>
-                    <p className="text-white font-semibold">{aboutInfo[0].projectsCompleted} Completed</p>
+                    <p className="text-white font-semibold">{aboutInfo.projectsCompleted} Completed</p>
                   </div>
                   <div>
                     <h4 className="text-sm text-white/50 mb-1">Aspiration</h4>
-                    <p className="text-white font-semibold">{aboutInfo[0].aspirationLabel}</p>
+                    <p className="text-white font-semibold">{aboutInfo.aspirationLabel}</p>
                   </div>
                 </div>
               </div>

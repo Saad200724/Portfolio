@@ -30,7 +30,7 @@ export default function About() {
     queryKey: ["/api/experiences"],
   });
 
-  const aboutInfo = (dbAboutInfo && Object.keys(dbAboutInfo).length > 0) ? dbAboutInfo : {
+  const aboutInfo = (dbAboutInfo && dbAboutInfo.id) ? dbAboutInfo : {
     bio: DEVELOPER_INFO.bio,
     passion: DEVELOPER_INFO.passion,
     yearsExperience: "2.5+",
