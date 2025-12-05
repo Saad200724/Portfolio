@@ -15,7 +15,7 @@ export default function SEO({
   image = "/og-image.jpg",
   url = "/"
 }: SEOProps) {
-  const siteUrl = typeof window !== 'undefined' ? window.location.origin : '';
+  const siteUrl = 'https://tahsin.cloud';
   const fullUrl = `${siteUrl}${url}`;
   const fullImageUrl = `${siteUrl}${image}`;
 
