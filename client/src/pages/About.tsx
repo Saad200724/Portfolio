@@ -34,8 +34,9 @@ export default function About() {
   return (
     <>
       <SEO 
-        title="About - Saad Bin Tofayel Tahsin"
-        description="Learn about my journey as a Python developer and fullstack engineer. 2.5+ years of experience building scalable systems and beautiful user interfaces."
+        title="About Saad Bin Tofayel Tahsin - Python Developer & Fullstack Engineer | 2.5+ Years Experience"
+        description="I am Saad Bin Tofayel (Tahsin), a Python developer and fullstack engineer with 2.5+ years of coding experience. MIT aspirant specializing in React, Node.js, AI/ML, and data science. Built 15+ projects from backend APIs to responsive web applications in Dhaka, Bangladesh."
+        keywords="about saad tahsin, python developer bangladesh, fullstack engineer dhaka, mit aspirant, react developer, nodejs expert, ai ml student, data science learner, web developer portfolio, coding experience, backend api development, responsive web applications"
         url="/about"
       />
       <div className="pt-32 pb-20 relative overflow-hidden">

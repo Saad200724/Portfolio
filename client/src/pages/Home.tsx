@@ -45,61 +45,65 @@ export default function Home() {
 
   return (
     <>
-      <SEO />
+      <SEO
+        title="Saad Bin Tofayel Tahsin - Python Developer, Fullstack Engineer & AI/ML Student | Portfolio"
+        description="Professional Python developer and fullstack engineer with 2.5+ years of experience. MIT aspirant specializing in React, Node.js, Express.js, PostgreSQL, and learning AI/ML & Data Science. Built 15+ scalable web applications. President of CyberHub IT Club & Cofounder of ZnForge. Available for freelance projects in Dhaka, Bangladesh."
+        keywords="saad bin tofayel tahsin, saad tahsin developer, python developer bangladesh, fullstack engineer portfolio, react specialist, nodejs backend developer, mit aspirant, ai ml student, data science learner, freelance developer dhaka, web application development, scalable systems, cyberhub president, znforge cofounder, professional coder, software engineer bangladesh"
+      />
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24">
 
         {/* Advanced Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
 
         {/* Animated Gradient Orbs */}
-        <motion.div 
+        <motion.div
           className="absolute top-0 -left-40 w-[500px] h-[500px] bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20 rounded-full blur-3xl"
-          animate={{ 
+          animate={{
             x: [0, 100, 0],
             y: [0, -50, 0],
             scale: [1, 1.2, 1],
             rotate: [0, 90, 0]
           }}
-          transition={{ 
+          transition={{
             duration: 20,
             repeat: Infinity,
             ease: "easeInOut"
           }}
         />
-        <motion.div 
+        <motion.div
           className="absolute bottom-0 -right-40 w-[600px] h-[600px] bg-gradient-to-l from-cyan-600/20 via-blue-600/20 to-purple-600/20 rounded-full blur-3xl"
-          animate={{ 
+          animate={{
             x: [0, -100, 0],
             y: [0, 50, 0],
             scale: [1, 1.1, 1],
             rotate: [0, -90, 0]
           }}
-          transition={{ 
+          transition={{
             duration: 25,
             repeat: Infinity,
             ease: "easeInOut"
           }}
         />
-        <motion.div 
+        <motion.div
           className="absolute top-1/2 left-1/2 w-[400px] h-[400px] bg-gradient-to-br from-emerald-600/10 via-teal-600/10 to-cyan-600/10 rounded-full blur-3xl"
-          animate={{ 
+          animate={{
             scale: [1, 1.3, 1],
             rotate: [0, 180, 360]
           }}
-          transition={{ 
+          transition={{
             duration: 30,
             repeat: Infinity,
             ease: "linear"
           }}
         />
 
-        <motion.div 
+        <motion.div
           className="container mx-auto px-6 relative z-10"
         >
           <div className="max-w-5xl mx-auto text-center">
 
             {/* Premium Profile Section */}
-            <motion.div 
+            <motion.div
               className="mb-12 relative inline-block"
               initial={{ opacity: 0, scale: 0.5, rotateY: 180 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -107,26 +111,26 @@ export default function Home() {
             >
               <div className="relative">
                 {/* Glow Ring */}
-                <motion.div 
+                <motion.div
                   className="absolute inset-0 w-52 h-52 sm:w-60 sm:h-60 mx-auto rounded-full bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 opacity-75 blur-2xl"
-                  animate={{ 
+                  animate={{
                     scale: [1, 1.2, 1],
                     rotate: [0, 360]
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 8,
                     repeat: Infinity,
                     ease: "linear"
                   }}
                 />
 
-                <motion.div 
+                <motion.div
                   className="relative w-44 h-44 sm:w-52 sm:h-52 mx-auto rounded-full p-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"
                   whileHover={{ scale: 1.05, rotate: 5 }}
                   transition={{ duration: 0.3 }}
                 >
                   <div className="w-full h-full rounded-full overflow-hidden bg-gradient-to-br from-gray-900 to-black ring-4 ring-white/10">
-                    <img 
+                    <img
                       src={profileImage}
                       alt={DEVELOPER_INFO.name}
                       className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
@@ -135,7 +139,7 @@ export default function Home() {
                 </motion.div>
 
                 {/* Premium Floating Badges */}
-                <motion.div 
+                <motion.div
                   className="absolute -top-3 -right-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-3 shadow-lg shadow-emerald-500/50"
                   initial={{ opacity: 0, scale: 0, rotate: -180 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -145,7 +149,7 @@ export default function Home() {
                   <Award className="text-white" size={20} />
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   className="absolute -bottom-3 -left-3 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-3 shadow-lg shadow-violet-500/50"
                   initial={{ opacity: 0, scale: 0, rotate: 180 }}
                   animate={{ opacity: 1, scale: 1, rotate: 0 }}
@@ -155,7 +159,7 @@ export default function Home() {
                   <Code className="text-white" size={20} />
                 </motion.div>
 
-                <motion.div 
+                <motion.div
                   className="absolute top-1/2 -right-8 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-2.5 shadow-lg shadow-orange-500/50"
                   initial={{ opacity: 0, scale: 0 }}
                   animate={{ opacity: 1, scale: 1 }}
@@ -173,7 +177,7 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
             >
-              <motion.div 
+              <motion.div
                 className="inline-block mb-4 px-6 py-2 rounded-full bg-gradient-to-r from-cyan-500/10 to-purple-500/10 border border-cyan-500/20 backdrop-blur-sm"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -192,7 +196,7 @@ export default function Home() {
                       <span className="relative z-10 bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 bg-clip-text text-transparent">
                         Saad
                       </span>
-                      <motion.span 
+                      <motion.span
                         className="absolute bottom-2 left-0 w-full h-3 bg-gradient-to-r from-cyan-500/30 to-purple-500/30 -z-10 blur-sm"
                         initial={{ width: 0 }}
                         animate={{ width: "100%" }}
@@ -214,28 +218,28 @@ export default function Home() {
               </h1>
             </motion.div>
 
-            <motion.div 
+            <motion.div
               className="text-xl sm:text-2xl md:text-3xl font-poppins font-semibold text-white/90 mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
               <div className="flex flex-wrap items-center justify-center gap-3">
-                <motion.span 
+                <motion.span
                   className="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/30"
                   whileHover={{ scale: 1.05, borderColor: "rgba(139, 92, 246, 0.5)" }}
                 >
                   {DEVELOPER_INFO.title}
                 </motion.span>
                 <span className="text-cyan-400">•</span>
-                <motion.span 
+                <motion.span
                   className="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600/20 to-cyan-600/20 border border-blue-500/30"
                   whileHover={{ scale: 1.05, borderColor: "rgba(59, 130, 246, 0.5)" }}
                 >
                   {DEVELOPER_INFO.subtitle}
                 </motion.span>
                 <span className="text-cyan-400">•</span>
-                <motion.span 
+                <motion.span
                   className="px-4 py-2 rounded-xl bg-gradient-to-r from-cyan-600/20 to-emerald-600/20 border border-cyan-500/30"
                   whileHover={{ scale: 1.05, borderColor: "rgba(6, 182, 212, 0.5)" }}
                 >
@@ -244,7 +248,7 @@ export default function Home() {
               </div>
             </motion.div>
 
-            <motion.p 
+            <motion.p
               className="text-lg sm:text-xl md:text-2xl text-white/70 mb-12 max-w-3xl mx-auto leading-relaxed px-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -254,7 +258,7 @@ export default function Home() {
             </motion.p>
 
             {/* Premium Stats Grid */}
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-12 max-w-3xl mx-auto px-4"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -265,7 +269,7 @@ export default function Home() {
                 { value: "1.5+", label: "Years Fullstack", icon: Zap, color: "from-purple-500 to-pink-500" },
                 { value: "24h", label: "Response Time", icon: Rocket, color: "from-emerald-500 to-teal-500" }
               ].map((stat, index) => (
-                <motion.div 
+                <motion.div
                   key={stat.label}
                   className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl border border-white/10 p-6 hover:border-white/30 transition-all duration-500"
                   initial={{ opacity: 0, y: 20 }}
@@ -290,19 +294,19 @@ export default function Home() {
             </motion.div>
 
             {/* Premium CTA Buttons */}
-            <motion.div 
+            <motion.div
               className="flex flex-col sm:flex-row gap-5 justify-center items-center px-4 mb-16"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.1 }}
             >
               <Link href="/projects">
-                <motion.button 
+                <motion.button
                   className="group relative w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-purple-600 via-blue-600 to-cyan-600 rounded-2xl text-white font-bold text-lg overflow-hidden shadow-2xl shadow-purple-500/50"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <motion.div 
+                  <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-cyan-600 via-blue-600 to-purple-600"
                     initial={{ x: "100%" }}
                     whileHover={{ x: 0 }}
@@ -314,7 +318,7 @@ export default function Home() {
                   </span>
                 </motion.button>
               </Link>
-              <motion.button 
+              <motion.button
                 className="group relative w-full sm:w-auto px-10 py-4 rounded-2xl text-white font-bold text-lg overflow-hidden border-2 border-white/20 hover:border-white/40 backdrop-blur-sm transition-all duration-300"
                 onClick={handleDownloadResume}
                 whileHover={{ scale: 1.05 }}
@@ -329,14 +333,14 @@ export default function Home() {
             </motion.div>
 
             {/* Current Roles - Bento Style */}
-            <motion.div 
+            <motion.div
               className="grid grid-cols-1 gap-6 mt-16 mb-16 max-w-2xl mx-auto px-4"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.3 }}
             >
               {DEVELOPER_INFO.currentRoles.map((role, index) => (
-                <motion.div 
+                <motion.div
                   key={role.company}
                   className="group relative overflow-hidden bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10 hover:border-cyan-500/50 transition-all duration-500"
                   initial={{ opacity: 0, x: index === 0 ? -50 : 50 }}
@@ -363,7 +367,7 @@ export default function Home() {
 
             {/* Blog Section */}
             {blogs.length > 0 && (
-              <motion.div 
+              <motion.div
                 className="mb-16 max-w-5xl mx-auto"
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -376,9 +380,9 @@ export default function Home() {
                       Latest Blog Posts
                     </span>
                   </h3>
-                  <a 
-                    href="https://medium.com/@saadbintofayeltahsin" 
-                    target="_blank" 
+                  <a
+                    href="https://medium.com/@saadbintofayeltahsin"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-white/60 hover:text-cyan-400 transition-colors text-sm mt-2"
                     data-testid="link-medium-profile"
@@ -404,8 +408,8 @@ export default function Home() {
                       <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-cyan-500/20 to-purple-500/20 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       {blog.imageUrl && (
                         <div className="overflow-hidden bg-gradient-to-br from-gray-900/50 to-black/50">
-                          <img 
-                            src={blog.imageUrl} 
+                          <img
+                            src={blog.imageUrl}
                             alt={blog.title}
                             className="w-full h-auto object-contain group-hover:scale-105 transition-transform duration-500"
                           />
@@ -430,15 +434,15 @@ export default function Home() {
                   ))}
                 </div>
                 {blogs.length > 3 && (
-                  <motion.div 
+                  <motion.div
                     className="text-center mt-8"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 2.4 }}
                   >
-                    <a 
-                      href="https://medium.com/@saadbintofayeltahsin" 
-                      target="_blank" 
+                    <a
+                      href="https://medium.com/@saadbintofayeltahsin"
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-cyan-600/20 to-blue-600/20 rounded-xl border border-cyan-400/30 text-cyan-300 hover:border-cyan-400/60 transition-all"
                       data-testid="button-view-all-blogs"
@@ -452,7 +456,7 @@ export default function Home() {
             )}
 
             {/* Tech Stack with Premium Pills */}
-            <motion.div 
+            <motion.div
               className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl p-8 mb-16 max-w-4xl mx-auto border border-white/10"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -465,7 +469,7 @@ export default function Home() {
               </h3>
               <div className="flex flex-wrap justify-center gap-4">
                 {["Python", "React", "Node.js", "TypeScript", "PostgreSQL", "TailwindCSS"].map((tech, index) => (
-                  <motion.span 
+                  <motion.span
                     key={tech}
                     className="group relative px-6 py-3 bg-gradient-to-r from-cyan-600/10 to-blue-600/10 rounded-2xl border border-cyan-400/30 backdrop-blur-sm overflow-hidden cursor-pointer"
                     initial={{ opacity: 0, scale: 0.8 }}
@@ -481,7 +485,7 @@ export default function Home() {
             </motion.div>
 
             {/* Premium Social Links */}
-            <motion.div 
+            <motion.div
               className="flex justify-center gap-6 mt-12 mb-16"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -493,7 +497,7 @@ export default function Home() {
                 { icon: Briefcase, href: SOCIAL_LINKS.upwork, color: "from-blue-500 to-blue-700", hoverColor: "hover:shadow-blue-500/50" },
                 { icon: Facebook, href: SOCIAL_LINKS.facebook, color: "from-blue-600 to-indigo-600", hoverColor: "hover:shadow-blue-600/50" }
               ].map((social, index) => (
-                <motion.a 
+                <motion.a
                   key={index}
                   href={social.href}
                   target="_blank"

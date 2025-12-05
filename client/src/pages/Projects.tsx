@@ -54,14 +54,15 @@ export default function Projects() {
   return (
     <>
       <SEO 
-        title="Projects - Saad Bin Tofayel Tahsin"
-        description="Explore my portfolio of fullstack web applications, backend APIs, and data science projects. Built with React, Python, Node.js, and modern technologies."
+        title="Projects Portfolio - Saad Bin Tofayel Tahsin | 15+ Web Applications & Backend Systems"
+        description="Explore 15+ completed projects including backend APIs, responsive web applications, and innovative solutions built with Python, React, Node.js, PostgreSQL, and MongoDB. Real-world implementations showcasing fullstack development expertise from Dhaka, Bangladesh."
+        keywords="web development projects, portfolio projects, backend api examples, react applications, nodejs projects, python projects, fullstack portfolio, web app showcase, coding projects, software development examples, database projects, responsive web design, api development, scalable systems"
         url="/projects"
       />
       <div className="pt-32 pb-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(14,165,233,0.15),transparent_50%),radial-gradient(ellipse_at_bottom_right,rgba(168,85,247,0.15),transparent_50%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem]" />
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -90,7 +91,7 @@ export default function Projects() {
                 A collection of my best work in web development, backend systems, and data science
               </p>
             </motion.div>
-            
+
             <motion.div 
               className="flex flex-wrap justify-center gap-4 mb-16"
               initial={{ opacity: 0, y: 20 }}
@@ -121,7 +122,7 @@ export default function Projects() {
                 </motion.button>
               ))}
             </motion.div>
-            
+
             <AnimatePresence mode="wait">
               <motion.div 
                 key={activeFilter}
@@ -143,7 +144,7 @@ export default function Projects() {
                 ))}
               </motion.div>
             </AnimatePresence>
-            
+
             {filteredProjects.length === 0 && (
               <motion.div
                 className="text-center py-20"
@@ -154,7 +155,7 @@ export default function Projects() {
                 <p className="text-2xl text-white/60">No projects found in this category</p>
               </motion.div>
             )}
-            
+
             <motion.div 
               className="text-center mt-16"
               initial={{ opacity: 0, y: 30 }}

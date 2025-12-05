@@ -116,14 +116,15 @@ export default function Contact() {
   return (
     <>
       <SEO 
-        title="Contact - Saad Bin Tofayel Tahsin"
-        description="Ready to work together? Contact me for freelance projects, collaborations, or full-time opportunities. Available for Python development and fullstack engineering."
+        title="Contact Saad Bin Tofayel Tahsin - Hire Python Developer & Fullstack Engineer"
+        description="Contact Saad Bin Tofayel Tahsin for freelance web development projects, fullstack engineering opportunities, and technical collaborations. Based in Dhaka, Bangladesh. Expert in Python, React, Node.js. Response within 24 hours. Available for remote work and consulting."
+        keywords="hire python developer, freelance fullstack engineer, contact developer, web development services, hire react developer, hire nodejs developer, freelance programmer bangladesh, remote developer, software development consultant, hire web developer dhaka, technical collaboration, project inquiry, developer for hire"
         url="/contact"
       />
       <div className="pt-32 pb-20 relative overflow-hidden">
         {/* Background Effects */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(168,85,247,0.15),transparent_50%)]" />
-        
+
         <div className="container mx-auto px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
             <motion.div
@@ -152,7 +153,7 @@ export default function Contact() {
                 Ready to bring your project to life? I'm available for freelance work and excited to discuss your ideas.
               </p>
             </motion.div>
-            
+
             <div className="grid lg:grid-cols-2 gap-8">
               {/* Premium Contact Form */}
               <motion.div 
@@ -164,7 +165,7 @@ export default function Contact() {
                 <h3 className="text-3xl font-poppins font-bold mb-8 bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent">
                   Send Me a Message
                 </h3>
-                
+
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                   <div>
                     <label className="block text-white/90 font-semibold mb-3 text-sm">Your Name</label>
@@ -177,7 +178,7 @@ export default function Contact() {
                       <p className="text-red-400 text-sm mt-2">{form.formState.errors.name.message}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label className="block text-white/90 font-semibold mb-3 text-sm">Email Address</label>
                     <Input
@@ -190,7 +191,7 @@ export default function Contact() {
                       <p className="text-red-400 text-sm mt-2">{form.formState.errors.email.message}</p>
                     )}
                   </div>
-                  
+
                   <div>
                     <label className="block text-white/90 font-semibold mb-3 text-sm">Project Details</label>
                     <Textarea
@@ -203,7 +204,7 @@ export default function Contact() {
                       <p className="text-red-400 text-sm mt-2">{form.formState.errors.message.message}</p>
                     )}
                   </div>
-                  
+
                   <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                     <Button 
                       type="submit" 
@@ -230,7 +231,7 @@ export default function Contact() {
                   </motion.div>
                 </form>
               </motion.div>
-              
+
               {/* Contact Info & Social Links */}
               <motion.div 
                 className="space-y-6"
@@ -241,7 +242,7 @@ export default function Contact() {
                 {/* Contact Details Card */}
                 <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
                   <h3 className="text-2xl font-poppins font-bold mb-6 text-white">Contact Information</h3>
-                  
+
                   <div className="space-y-6">
                     {[
                       { icon: Mail, label: "Email", value: DEVELOPER_INFO.email, gradient: "from-cyan-500 to-blue-600" },
@@ -266,11 +267,11 @@ export default function Contact() {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Social Links Grid */}
                 <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/10">
                   <h3 className="text-2xl font-poppins font-bold mb-6 text-white">Connect With Me</h3>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     {socialLinks.map((social, index) => (
                       <motion.a 
@@ -291,7 +292,7 @@ export default function Contact() {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Download Resume Button */}
                 <motion.div
                   whileHover={{ scale: 1.02 }}

@@ -71,8 +71,9 @@ export default function Skills() {
   return (
     <>
       <SEO 
-        title="Skills - Saad Bin Tofayel Tahsin"
-        description="Explore my technical skills in Python, JavaScript, React, Node.js, and data science. Expert level programming with continuous learning in emerging technologies."
+        title="Technical Skills & Expertise - Saad Bin Tofayel Tahsin | Python, React, Node.js, AI/ML"
+        description="Comprehensive technical skills portfolio: Expert in Python, JavaScript, TypeScript. Advanced proficiency in React, Node.js, Express.js. Database expertise in PostgreSQL, MongoDB, Supabase. Learning AI/ML and Data Science. Tools: Git, Linux, Docker, VS Code. 2.5+ years of hands-on coding experience."
+        keywords="python skills, javascript developer, typescript expert, react developer skills, nodejs backend, expressjs api, postgresql database, mongodb nosql, supabase backend, ai ml learning, data science beginner, git version control, linux commands, docker containers, fullstack developer skills, web development expertise, programming languages, frontend frameworks, backend technologies"
         url="/skills"
       />
       <div className="pt-32 pb-20 relative overflow-hidden">

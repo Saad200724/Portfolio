@@ -19,6 +19,55 @@ export default function SEO({
   const fullUrl = `${siteUrl}${url}`;
   const fullImageUrl = `${siteUrl}${image}`;
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Saad Bin Tofayel Tahsin",
+    "alternateName": "Tahsin",
+    "url": siteUrl,
+    "image": fullImageUrl,
+    "description": description,
+    "jobTitle": "Python Developer & Fullstack Engineer",
+    "worksFor": [
+      {
+        "@type": "Organization",
+        "name": "ZnForge",
+        "role": "Cofounder & CEO"
+      },
+      {
+        "@type": "Organization",
+        "name": "CyberHub - The IT Club",
+        "role": "President"
+      }
+    ],
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Dhaka",
+      "addressCountry": "Bangladesh"
+    },
+    "email": "saadbintofayeltahsin@gmail.com",
+    "knowsAbout": [
+      "Python Programming",
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Node.js",
+      "Express.js",
+      "PostgreSQL",
+      "MongoDB",
+      "Supabase",
+      "Web Development",
+      "Backend Development",
+      "Frontend Development",
+      "AI/ML",
+      "Data Science"
+    ],
+    "sameAs": [
+      "https://github.com/saadbintahsin",
+      "https://www.facebook.com/saadtahsin"
+    ]
+  };
+
   return (
     <Helmet>
       <title>{title}</title>
@@ -33,17 +82,28 @@ export default function SEO({
       <meta property="og:image" content={fullImageUrl} />
       <meta property="og:url" content={fullUrl} />
       <meta property="og:site_name" content="Saad Bin Tofayel Tahsin" />
+      <meta property="og:locale" content="en_US" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={fullImageUrl} />
+      <meta name="twitter:creator" content="@saadbintahsin" />
       
-      {/* Additional */}
-      <meta name="robots" content="index, follow" />
+      {/* Additional SEO */}
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <meta name="googlebot" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+      <meta httpEquiv="Content-Language" content="en" />
+      <meta name="geo.region" content="BD-13" />
+      <meta name="geo.placename" content="Dhaka" />
       <link rel="canonical" href={fullUrl} />
+      
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
     </Helmet>
   );
 }
