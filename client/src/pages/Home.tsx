@@ -39,10 +39,10 @@ export default function Home() {
     <>
       <SEO />
       <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-24">
-        
+
         {/* Advanced Grid Background */}
         <div className="absolute inset-0 bg-[linear-gradient(rgba(14,165,233,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(14,165,233,0.05)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
-        
+
         {/* Animated Gradient Orbs */}
         <motion.div 
           className="absolute top-0 -left-40 w-[500px] h-[500px] bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-blue-600/20 rounded-full blur-3xl"
@@ -84,12 +84,12 @@ export default function Home() {
             ease: "linear"
           }}
         />
-        
+
         <motion.div 
           className="container mx-auto px-6 relative z-10"
         >
           <div className="max-w-5xl mx-auto text-center">
-            
+
             {/* Premium Profile Section */}
             <motion.div 
               className="mb-12 relative inline-block"
@@ -111,7 +111,7 @@ export default function Home() {
                     ease: "linear"
                   }}
                 />
-                
+
                 <motion.div 
                   className="relative w-44 h-44 sm:w-52 sm:h-52 mx-auto rounded-full p-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500"
                   whileHover={{ scale: 1.05, rotate: 5 }}
@@ -125,7 +125,7 @@ export default function Home() {
                     />
                   </div>
                 </motion.div>
-                
+
                 {/* Premium Floating Badges */}
                 <motion.div 
                   className="absolute -top-3 -right-3 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl p-3 shadow-lg shadow-emerald-500/50"
@@ -136,7 +136,7 @@ export default function Home() {
                 >
                   <Award className="text-white" size={20} />
                 </motion.div>
-                
+
                 <motion.div 
                   className="absolute -bottom-3 -left-3 bg-gradient-to-br from-violet-500 to-purple-600 rounded-2xl p-3 shadow-lg shadow-violet-500/50"
                   initial={{ opacity: 0, scale: 0, rotate: 180 }}
@@ -158,7 +158,7 @@ export default function Home() {
                 </motion.div>
               </div>
             </motion.div>
-            
+
             {/* Hero Text with Enhanced Typography */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -205,7 +205,7 @@ export default function Home() {
                 </motion.span>
               </h1>
             </motion.div>
-            
+
             <motion.div 
               className="text-xl sm:text-2xl md:text-3xl font-poppins font-semibold text-white/90 mb-6"
               initial={{ opacity: 0, y: 30 }}
@@ -235,7 +235,7 @@ export default function Home() {
                 </motion.span>
               </div>
             </motion.div>
-            
+
             <motion.p 
               className="text-lg sm:text-xl md:text-2xl text-white/70 mb-12 max-w-3xl mx-auto leading-relaxed px-4"
               initial={{ opacity: 0, y: 30 }}
@@ -280,7 +280,7 @@ export default function Home() {
                 </motion.div>
               ))}
             </motion.div>
-            
+
             {/* Premium CTA Buttons */}
             <motion.div 
               className="flex flex-col sm:flex-row gap-5 justify-center items-center px-4 mb-16"
@@ -351,35 +351,6 @@ export default function Home() {
                   </div>
                 </motion.div>
               ))}
-            </motion.div>
-
-            {/* Tech Stack with Premium Pills */}
-            <motion.div 
-              className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl p-8 mb-16 max-w-4xl mx-auto border border-white/10"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 1.7 }}
-            >
-              <h3 className="text-3xl font-poppins font-bold text-white mb-6 text-center">
-                <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
-                  Tech Stack Expertise
-                </span>
-              </h3>
-              <div className="flex flex-wrap justify-center gap-4">
-                {["Python", "React", "Node.js", "TypeScript", "PostgreSQL", "TailwindCSS"].map((tech, index) => (
-                  <motion.span 
-                    key={tech}
-                    className="group relative px-6 py-3 bg-gradient-to-r from-cyan-600/10 to-blue-600/10 rounded-2xl border border-cyan-400/30 backdrop-blur-sm overflow-hidden cursor-pointer"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.3, delay: 1.9 + index * 0.1 }}
-                    whileHover={{ scale: 1.1, borderColor: "rgba(34, 211, 238, 0.6)" }}
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/20 group-hover:to-blue-500/20 transition-all duration-300" />
-                    <span className="relative text-cyan-300 font-semibold">{tech}</span>
-                  </motion.span>
-                ))}
-              </div>
             </motion.div>
 
             {/* Blog Section */}
@@ -472,12 +443,41 @@ export default function Home() {
               </motion.div>
             )}
 
+            {/* Tech Stack with Premium Pills */}
+            <motion.div 
+              className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-xl rounded-3xl p-8 mb-16 max-w-4xl mx-auto border border-white/10"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 2.5 }}
+            >
+              <h3 className="text-3xl font-poppins font-bold text-white mb-6 text-center">
+                <span className="bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                  Tech Stack Expertise
+                </span>
+              </h3>
+              <div className="flex flex-wrap justify-center gap-4">
+                {["Python", "React", "Node.js", "TypeScript", "PostgreSQL", "TailwindCSS"].map((tech, index) => (
+                  <motion.span 
+                    key={tech}
+                    className="group relative px-6 py-3 bg-gradient-to-r from-cyan-600/10 to-blue-600/10 rounded-2xl border border-cyan-400/30 backdrop-blur-sm overflow-hidden cursor-pointer"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.3, delay: 2.7 + index * 0.1 }}
+                    whileHover={{ scale: 1.1, borderColor: "rgba(34, 211, 238, 0.6)" }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/0 to-blue-500/0 group-hover:from-cyan-500/20 group-hover:to-blue-500/20 transition-all duration-300" />
+                    <span className="relative text-cyan-300 font-semibold">{tech}</span>
+                  </motion.span>
+                ))}
+              </div>
+            </motion.div>
+
             {/* Premium Social Links */}
             <motion.div 
               className="flex justify-center gap-6 mt-12 mb-16"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 2.1 }}
+              transition={{ duration: 0.8, delay: 2.8 }}
             >
               {[
                 { icon: Github, href: SOCIAL_LINKS.github, color: "from-gray-600 to-gray-800", hoverColor: "hover:shadow-gray-500/50" },
@@ -495,7 +495,7 @@ export default function Home() {
                   whileTap={{ scale: 0.9 }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 2.2 + index * 0.1 }}
+                  transition={{ delay: 3.0 + index * 0.1 }}
                 >
                   <social.icon className="text-white" size={24} />
                 </motion.a>
