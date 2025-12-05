@@ -4,45 +4,45 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://saad-tahsin-portfolio.com/</loc>
+    <loc>https://tahsin.cloud/</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/" />
   </url>
   <url>
-    <loc>https://saad-tahsin-portfolio.com/about</loc>
+    <loc>https://tahsin.cloud/about</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/about" />
   </url>
   <url>
-    <loc>https://saad-tahsin-portfolio.com/skills</loc>
+    <loc>https://tahsin.cloud/skills</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/skills" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/skills" />
   </url>
   <url>
-    <loc>https://saad-tahsin-portfolio.com/projects</loc>
+    <loc>https://tahsin.cloud/projects</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/projects" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/projects" />
   </url>
   <url>
-    <loc>https://saad-tahsin-portfolio.com/contact</loc>
+    <loc>https://tahsin.cloud/contact</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/contact" />
   </url>
   <url>
-    <loc>https://saad-tahsin-portfolio.com/eca</loc>
+    <loc>https://tahsin.cloud/eca</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/eca" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://tahsin.cloud/eca" />
   </url>
 </urlset>

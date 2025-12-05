@@ -27,4 +27,4 @@ Disallow: /api/
 Crawl-delay: 1
 
 # Sitemap location
-Sitemap: https://saad-tahsin-portfolio.com/sitemap.xml
+Sitemap: https://tahsin.cloud/sitemap.xml
