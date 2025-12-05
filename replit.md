@@ -68,10 +68,74 @@ Preferred communication style: Simple, everyday language.
 ### External Dependencies
 
 **Database**
-- **PostgreSQL** via Neon serverless (@neondatabase/serverless)
-- Connection pooling with pg library
+- **PostgreSQL** - Works with any PostgreSQL database (local, VPS, or cloud-hosted)
+- Uses standard `pg` library with connection pooling for maximum compatibility
 - Schema migrations managed through Drizzle Kit in `migrations/` directory
 - Environment variable `DATABASE_URL` required for connection
+
+### VPS Deployment Guide (Ubuntu)
+
+**Prerequisites**
+1. Ubuntu server with Node.js 20+ installed
+2. PostgreSQL installed and running locally
+
+**PostgreSQL Setup on Ubuntu VPS**
+```bash
+# Install PostgreSQL
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+
+# Start PostgreSQL service
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# Create database and user
+sudo -u postgres psql
+CREATE DATABASE portfolio;
+CREATE USER your_user WITH ENCRYPTED PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE portfolio TO your_user;
+\q
+```
+
+**Environment Variables**
+Set the following environment variables in your VPS:
+```bash
+export DATABASE_URL="postgresql://your_user:your_password@localhost:5432/portfolio"
+export GMAIL_APP_PASSWORD="your_gmail_app_password"  # For contact form emails
+export NODE_ENV="production"
+```
+
+**Deployment Steps**
+```bash
+# Clone your repository
+git clone <your-repo-url>
+cd <project-directory>
+
+# Install dependencies
+npm install
+
+# Build the project
+npm run build
+
+# Push database schema
+npm run db:push
+
+# Start the production server
+npm run start
+```
+
+**Using PM2 (Recommended)**
+```bash
+# Install PM2 globally
+npm install -g pm2
+
+# Start the application
+pm2 start dist/index.js --name "portfolio"
+
+# Enable auto-restart on reboot
+pm2 startup
+pm2 save
+```
 
 **Email Service**
 - **Gmail SMTP** (smtp.gmail.com:587) for transactional emails
