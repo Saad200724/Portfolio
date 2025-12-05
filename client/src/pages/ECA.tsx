@@ -99,11 +99,11 @@ export default function ECA() {
                       
                       <div className={`relative flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-0`}>
                         {eca.imageUrl && (
-                          <div className="md:w-1/2 flex-shrink-0">
+                          <div className="md:w-1/2 flex-shrink-0 bg-black/20 flex items-center justify-center">
                             <img 
                               src={eca.imageUrl} 
                               alt={eca.title}
-                              className="w-full h-48 md:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
+                              className="w-full h-auto max-h-64 object-contain group-hover:scale-105 transition-transform duration-500"
                               data-testid={`img-eca-${eca.id}`}
                             />
                           </div>
