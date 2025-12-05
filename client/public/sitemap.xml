@@ -1,34 +1,48 @@
 
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://saad-tahsin-portfolio.com/</loc>
     <lastmod>2024-02-04</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/" />
   </url>
   <url>
     <loc>https://saad-tahsin-portfolio.com/about</loc>
     <lastmod>2024-02-04</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/about" />
   </url>
   <url>
     <loc>https://saad-tahsin-portfolio.com/skills</loc>
     <lastmod>2024-02-04</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/skills" />
   </url>
   <url>
     <loc>https://saad-tahsin-portfolio.com/projects</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/projects" />
   </url>
   <url>
     <loc>https://saad-tahsin-portfolio.com/contact</loc>
     <lastmod>2024-02-04</lastmod>
     <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/contact" />
+  </url>
+  <url>
+    <loc>https://saad-tahsin-portfolio.com/eca</loc>
+    <lastmod>2024-02-04</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://saad-tahsin-portfolio.com/eca" />
   </url>
 </urlset>

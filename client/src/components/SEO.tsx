@@ -23,49 +23,99 @@ export default function SEO({
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Saad Bin Tofayel Tahsin",
-    "alternateName": "Tahsin",
+    "alternateName": ["Tahsin", "Saad Tahsin", "PhantomsByte"],
     "url": siteUrl,
     "image": fullImageUrl,
     "description": description,
     "jobTitle": "Python Developer & Fullstack Engineer",
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "credentialCategory": "degree",
+        "name": "MIT Aspirant"
+      }
+    ],
     "worksFor": [
       {
         "@type": "Organization",
         "name": "ZnForge",
-        "role": "Cofounder & CEO"
+        "description": "Technology startup focusing on innovative solutions",
+        "foundingDate": "2024",
+        "founder": {
+          "@type": "Person",
+          "name": "Saad Bin Tofayel Tahsin"
+        }
       },
       {
         "@type": "Organization",
         "name": "CyberHub - The IT Club",
-        "role": "President"
+        "description": "Student IT organization"
+      }
+    ],
+    "memberOf": [
+      {
+        "@type": "Organization",
+        "name": "ZnForge"
+      },
+      {
+        "@type": "Organization",
+        "name": "CyberHub - The IT Club"
       }
     ],
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Dhaka",
+      "addressRegion": "Dhaka Division",
       "addressCountry": "Bangladesh"
     },
     "email": "saadbintofayeltahsin@gmail.com",
+    "telephone": "+880-1521-308894",
     "knowsAbout": [
       "Python Programming",
-      "JavaScript",
+      "JavaScript Development",
       "TypeScript",
-      "React",
-      "Node.js",
-      "Express.js",
-      "PostgreSQL",
-      "MongoDB",
-      "Supabase",
+      "React.js Framework",
+      "Node.js Backend",
+      "Express.js API",
+      "PostgreSQL Database",
+      "MongoDB NoSQL",
+      "Supabase Backend",
       "Web Development",
       "Backend Development",
       "Frontend Development",
-      "AI/ML",
-      "Data Science"
+      "Full Stack Development",
+      "RESTful API Design",
+      "Database Architecture",
+      "Artificial Intelligence",
+      "Machine Learning",
+      "Data Science",
+      "Responsive Web Design",
+      "Git Version Control"
+    ],
+    "knowsLanguage": [
+      {
+        "@type": "Language",
+        "name": "English",
+        "alternateName": "en"
+      },
+      {
+        "@type": "Language",
+        "name": "Bengali",
+        "alternateName": "bn"
+      }
     ],
     "sameAs": [
       "https://github.com/saadbintahsin",
-      "https://www.facebook.com/saadtahsin"
-    ]
+      "https://www.facebook.com/saadtahsin",
+      "https://medium.com/@saadbintofayeltahsin",
+      "https://www.upwork.com/freelancers/~01d0f8b9c5c5c5c5c5"
+    ],
+    "seeks": {
+      "@type": "JobPosting",
+      "title": "Freelance Development Projects",
+      "employmentType": "CONTRACTOR",
+      "description": "Seeking freelance opportunities in web development, Python programming, and fullstack engineering"
+    }
   };
 
   return (

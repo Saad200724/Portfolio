@@ -1,6 +1,30 @@
 
+# Allow all search engines to crawl the site
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /admin/
+Disallow: /login
+Disallow: /personal-space
 
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /
+
+User-agent: bingbot
+Allow: /
+Disallow: /api/
+
+User-agent: Yahoo! Slurp
+Allow: /
+Disallow: /api/
+
+# Crawl delay for polite bots
+Crawl-delay: 1
+
+# Sitemap location
 Sitemap: https://saad-tahsin-portfolio.com/sitemap.xml
