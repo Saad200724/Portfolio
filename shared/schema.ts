@@ -106,6 +106,43 @@ export const insertAdditionalSkillSchema = createInsertSchema(additionalSkills).
 export type InsertAdditionalSkill = z.infer<typeof insertAdditionalSkillSchema>;
 export type AdditionalSkill = typeof additionalSkills.$inferSelect;
 
+export const aboutInfo = pgTable("about_info", {
+  id: serial("id").primaryKey(),
+  bio: text("bio").notNull(),
+  passion: text("passion").notNull(),
+  yearsExperience: text("years_experience").notNull(),
+  projectsCompleted: text("projects_completed").notNull(),
+  aspirationLabel: text("aspiration_label").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const insertAboutInfoSchema = createInsertSchema(aboutInfo).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
+export type InsertAboutInfo = z.infer<typeof insertAboutInfoSchema>;
+export type AboutInfo = typeof aboutInfo.$inferSelect;
+
+export const experiences = pgTable("experiences", {
+  id: serial("id").primaryKey(),
+  role: text("role").notNull(),
+  duration: text("duration").notNull(),
+  description: text("description").notNull(),
+  order: integer("order").notNull().default(0),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const insertExperienceSchema = createInsertSchema(experiences).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type InsertExperience = z.infer<typeof insertExperienceSchema>;
+export type Experience = typeof experiences.$inferSelect;
+
 export const blogs = pgTable("blogs", {
   id: serial("id").primaryKey(),
   title: text("title").notNull(),

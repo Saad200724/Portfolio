@@ -1,9 +1,44 @@
 import { motion } from "framer-motion";
 import { Award, Briefcase, GraduationCap, Sparkles, Code2, Database, Brain, Rocket } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 import { DEVELOPER_INFO, EXPERIENCES } from "@/lib/constants";
 
+interface DbAboutInfo {
+  id: number;
+  bio: string;
+  passion: string;
+  yearsExperience: string;
+  projectsCompleted: string;
+  aspirationLabel: string;
+}
+
+interface DbExperience {
+  id: number;
+  role: string;
+  duration: string;
+  description: string;
+  order: number;
+}
+
 export default function About() {
+  const { data: dbAboutInfo } = useQuery<DbAboutInfo>({
+    queryKey: ["/api/about"],
+  });
+
+  const { data: dbExperiences = [] } = useQuery<DbExperience[]>({
+    queryKey: ["/api/experiences"],
+  });
+
+  const aboutInfo = dbAboutInfo || {
+    bio: DEVELOPER_INFO.bio,
+    passion: DEVELOPER_INFO.passion,
+    yearsExperience: "2.5+",
+    projectsCompleted: "15+",
+    aspirationLabel: "MIT"
+  };
+
+  const experiences = dbExperiences.length > 0 ? dbExperiences : EXPERIENCES;
   const tools = [
     { 
       category: "Languages", 
@@ -85,10 +120,10 @@ export default function About() {
                 </div>
                 <div className="space-y-4 text-white/80 leading-relaxed">
                   <p className="text-lg">
-                    {DEVELOPER_INFO.bio}
+                    {aboutInfo.bio}
                   </p>
                   <p className="text-lg">
-                    {DEVELOPER_INFO.passion}
+                    {aboutInfo.passion}
                   </p>
                 </div>
               </motion.div>
@@ -101,9 +136,9 @@ export default function About() {
                 transition={{ duration: 0.7, delay: 0.4 }}
               >
                 {[
-                  { label: "Experience", value: "2.5+", subtitle: "Years Coding", icon: Code2, gradient: "from-cyan-500 to-blue-600" },
-                  { label: "Projects", value: "15+", subtitle: "Projects Completed", icon: Award, gradient: "from-emerald-500 to-teal-600" },
-                  { label: "MIT", value: "MIT", subtitle: "Aspirants", icon: Briefcase, gradient: "from-purple-500 to-pink-600" }
+                  { label: "Experience", value: aboutInfo.yearsExperience, subtitle: "Years Coding", icon: Code2, gradient: "from-cyan-500 to-blue-600" },
+                  { label: "Projects", value: aboutInfo.projectsCompleted, subtitle: "Projects Completed", icon: Award, gradient: "from-emerald-500 to-teal-600" },
+                  { label: aboutInfo.aspirationLabel, value: aboutInfo.aspirationLabel, subtitle: "Aspirants", icon: Briefcase, gradient: "from-purple-500 to-pink-600" }
                 ].map((stat, index) => (
                   <motion.div
                     key={stat.label}
@@ -142,7 +177,7 @@ export default function About() {
               </div>
               
               <div className="space-y-6 relative before:absolute before:left-[19px] before:top-2 before:bottom-2 before:w-0.5 before:bg-gradient-to-b before:from-cyan-500 before:via-purple-500 before:to-pink-500">
-                {EXPERIENCES.map((exp, index) => (
+                {experiences.map((exp, index) => (
                   <motion.div 
                     key={index}
                     className="flex items-start gap-6 relative"

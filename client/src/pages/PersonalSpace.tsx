@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { motion } from "framer-motion";
@@ -76,6 +75,23 @@ interface Blog {
   publishedDate: string | null;
 }
 
+interface AboutInfo {
+  id: number;
+  title: string;
+  description: string;
+  imageUrl: string;
+}
+
+interface Experience {
+  id: number;
+  title: string;
+  company: string;
+  role: string;
+  description: string;
+  startDate: string;
+  endDate: string | null;
+}
+
 export default function PersonalSpace() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
@@ -116,6 +132,15 @@ export default function PersonalSpace() {
     queryKey: ["/api/blogs"],
   });
 
+  const { data: aboutInfo = [], isLoading: aboutLoading } = useQuery<AboutInfo[]>({
+    queryKey: ["/api/about"],
+  });
+
+  const { data: experiences = [], isLoading: experiencesLoading } = useQuery<Experience[]>({
+    queryKey: ["/api/experiences"],
+  });
+
+
   return (
     <>
       <SEO 
@@ -153,7 +178,7 @@ export default function PersonalSpace() {
           </motion.div>
 
           <Tabs defaultValue="projects" className="w-full max-w-6xl mx-auto">
-            <TabsList className="grid w-full grid-cols-5 mb-8 bg-white/5 border border-white/10 rounded-xl p-1">
+            <TabsList className="grid w-full grid-cols-6 mb-8 bg-white/5 border border-white/10 rounded-xl p-1">
               <TabsTrigger value="projects" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <FolderKanban className="mr-2" size={18} />
                 Projects
@@ -169,6 +194,10 @@ export default function PersonalSpace() {
               <TabsTrigger value="skills" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <Zap className="mr-2" size={18} />
                 Skills
+              </TabsTrigger>
+              <TabsTrigger value="about" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
+                <User className="mr-2" size={18} />
+                About
               </TabsTrigger>
               <TabsTrigger value="messages" className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-600 data-[state=active]:to-blue-600 rounded-lg">
                 <MessageSquare className="mr-2" size={18} />
@@ -195,6 +224,10 @@ export default function PersonalSpace() {
                 queryClient={queryClient} 
                 toast={toast} 
               />
+            </TabsContent>
+
+            <TabsContent value="about">
+              <AboutPanel aboutInfo={aboutInfo} experiences={experiences} queryClient={queryClient} toast={toast} />
             </TabsContent>
 
             <TabsContent value="messages">
@@ -1197,6 +1230,334 @@ function SkillsPanel({ skillCategories, additionalSkills, queryClient, toast }: 
     </div>
   );
 }
+
+
+function AboutPanel({ aboutInfo, experiences, queryClient, toast }: { 
+  aboutInfo: AboutInfo[], 
+  experiences: Experience[],
+  queryClient: any, 
+  toast: any 
+}) {
+  const [isEditingAbout, setIsEditingAbout] = useState(false);
+  const [isEditingExperience, setIsEditingExperience] = useState(false);
+  
+  const [aboutForm, setAboutForm] = useState({
+    id: 0,
+    title: "",
+    description: "",
+    imageUrl: ""
+  });
+
+  const [experienceForm, setExperienceForm] = useState({
+    id: 0,
+    title: "",
+    company: "",
+    role: "",
+    description: "",
+    startDate: "",
+    endDate: ""
+  });
+
+  useEffect(() => {
+    if (aboutInfo && aboutInfo.length > 0) {
+      setAboutForm(aboutInfo[0]);
+    }
+  }, [aboutInfo]);
+
+  const updateAboutMutation = useMutation({
+    mutationFn: async (data: AboutInfo) => {
+      const res = await fetch(`/api/about/${data.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Failed to update about section");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/about"] });
+      setIsEditingAbout(false);
+      toast({ title: "About section updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update about section", variant: "destructive" });
+    }
+  });
+
+  const createExperienceMutation = useMutation({
+    mutationFn: async (data: Omit<Experience, 'id'>) => {
+      const res = await fetch("/api/experiences", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Failed to create experience");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/experiences"] });
+      setIsEditingExperience(false);
+      setExperienceForm({ id: 0, title: "", company: "", role: "", description: "", startDate: "", endDate: "" });
+      toast({ title: "Experience added successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to add experience", variant: "destructive" });
+    }
+  });
+
+  const updateExperienceMutation = useMutation({
+    mutationFn: async (data: Experience) => {
+      const res = await fetch(`/api/experiences/${data.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+      if (!res.ok) throw new Error("Failed to update experience");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/experiences"] });
+      setIsEditingExperience(false);
+      setExperienceForm({ id: 0, title: "", company: "", role: "", description: "", startDate: "", endDate: "" });
+      toast({ title: "Experience updated successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to update experience", variant: "destructive" });
+    }
+  });
+
+  const deleteExperienceMutation = useMutation({
+    mutationFn: async (id: number) => {
+      const res = await fetch(`/api/experiences/${id}`, { method: "DELETE" });
+      if (!res.ok) throw new Error("Failed to delete experience");
+      return res.json();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/experiences"] });
+      toast({ title: "Experience deleted successfully" });
+    },
+    onError: () => {
+      toast({ title: "Failed to delete experience", variant: "destructive" });
+    }
+  });
+
+  const handleAboutSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (aboutInfo && aboutInfo.length > 0) {
+      updateAboutMutation.mutate(aboutForm);
+    } else {
+      // Handle case where aboutInfo might be initially empty
+      toast({ title: "About section not found, please add it first.", variant: "destructive" });
+    }
+  };
+
+  const handleExperienceSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = {
+      ...experienceForm,
+      endDate: experienceForm.endDate || null,
+    };
+    if (experienceForm.id) {
+      updateExperienceMutation.mutate(data as Experience);
+    } else {
+      // Remove id before creating
+      const { id, ...createData } = data;
+      createExperienceMutation.mutate(createData);
+    }
+  };
+
+  const handleEditExperience = (experience: Experience) => {
+    setExperienceForm(experience);
+    setIsEditingExperience(true);
+  };
+
+  const handleAddExperience = () => {
+    setExperienceForm({ id: 0, title: "", company: "", role: "", description: "", startDate: "", endDate: "" });
+    setIsEditingExperience(true);
+  };
+
+  return (
+    <div className="space-y-6">
+      <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-white">About Section</CardTitle>
+          <Button onClick={() => setIsEditingAbout(!isEditingAbout)} className="bg-gradient-to-r from-purple-600 to-blue-600">
+            {isEditingAbout ? "Cancel" : "Edit"}
+          </Button>
+        </CardHeader>
+        <CardContent>
+          {isEditingAbout ? (
+            <form onSubmit={handleAboutSubmit} className="space-y-4">
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Title</label>
+                <Input 
+                  value={aboutForm.title}
+                  onChange={(e) => setAboutForm({ ...aboutForm, title: e.target.value })}
+                  className="bg-white/5 border-white/10"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Description</label>
+                <Textarea 
+                  value={aboutForm.description}
+                  onChange={(e) => setAboutForm({ ...aboutForm, description: e.target.value })}
+                  className="bg-white/5 border-white/10 min-h-[150px]"
+                  required
+                />
+              </div>
+              <div>
+                <label className="text-sm text-white/70 mb-1 block">Image URL</label>
+                <Input 
+                  value={aboutForm.imageUrl}
+                  onChange={(e) => setAboutForm({ ...aboutForm, imageUrl: e.target.value })}
+                  className="bg-white/5 border-white/10"
+                  required
+                />
+              </div>
+              <Button type="submit" className="bg-gradient-to-r from-purple-600 to-blue-600">
+                <Save className="mr-2" size={16} />
+                Save Changes
+              </Button>
+            </form>
+          ) : (
+            aboutInfo && aboutInfo.length > 0 ? (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-bold text-white">{aboutInfo[0].title}</h2>
+                <p className="text-white/70 leading-relaxed">{aboutInfo[0].description}</p>
+                {aboutInfo[0].imageUrl && (
+                  <img src={aboutInfo[0].imageUrl} alt="About" className="max-w-xs rounded-lg border border-white/10" />
+                )}
+              </div>
+            ) : (
+              <p className="text-white/50 text-center py-8">No about information available. Click 'Edit' to add it.</p>
+            )
+          )}
+        </CardContent>
+      </Card>
+
+      <Card className="bg-white/5 border-white/10 backdrop-blur-xl">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-white">Work Experiences ({experiences.length})</CardTitle>
+          <Dialog open={isEditingExperience} onOpenChange={(open) => {
+            setIsEditingExperience(open);
+            if (!open) {
+              setExperienceForm({ id: 0, title: "", company: "", role: "", description: "", startDate: "", endDate: "" });
+            }
+          }}>
+            <DialogTrigger asChild>
+              <Button className="bg-gradient-to-r from-purple-600 to-blue-600" onClick={handleAddExperience}>
+                <Plus className="mr-2" size={16} />
+                Add Experience
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="bg-gray-900 border-white/10 text-white max-w-2xl max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>{experienceForm.id ? "Edit Experience" : "Add New Experience"}</DialogTitle>
+              </DialogHeader>
+              <form onSubmit={handleExperienceSubmit} className="space-y-4 mt-4">
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Title</label>
+                  <Input 
+                    value={experienceForm.title}
+                    onChange={(e) => setExperienceForm({ ...experienceForm, title: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Company</label>
+                  <Input 
+                    value={experienceForm.company}
+                    onChange={(e) => setExperienceForm({ ...experienceForm, company: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Role</label>
+                  <Input 
+                    value={experienceForm.role}
+                    onChange={(e) => setExperienceForm({ ...experienceForm, role: e.target.value })}
+                    className="bg-white/5 border-white/10"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-sm text-white/70 mb-1 block">Description</label>
+                  <Textarea 
+                    value={experienceForm.description}
+                    onChange={(e) => setExperienceForm({ ...experienceForm, description: e.target.value })}
+                    className="bg-white/5 border-white/10 min-h-[100px]"
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-sm text-white/70 mb-1 block">Start Date</label>
+                    <Input 
+                      value={experienceForm.startDate}
+                      onChange={(e) => setExperienceForm({ ...experienceForm, startDate: e.target.value })}
+                      className="bg-white/5 border-white/10"
+                      placeholder="e.g., Jan 2023"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm text-white/70 mb-1 block">End Date (optional)</label>
+                    <Input 
+                      value={experienceForm.endDate}
+                      onChange={(e) => setExperienceForm({ ...experienceForm, endDate: e.target.value })}
+                      className="bg-white/5 border-white/10"
+                      placeholder="e.g., Present"
+                    />
+                  </div>
+                </div>
+                <div className="flex gap-3 pt-4">
+                  <Button type="submit" className="flex-1 bg-gradient-to-r from-purple-600 to-blue-600">
+                    <Save className="mr-2" size={16} />
+                    {experienceForm.id ? "Update" : "Add"}
+                  </Button>
+                  <Button type="button" variant="outline" onClick={() => setIsEditingExperience(false)} className="border-white/10">
+                    Cancel
+                  </Button>
+                </div>
+              </form>
+            </DialogContent>
+          </Dialog>
+        </CardHeader>
+        <CardContent>
+          {experiencesLoading ? (
+            <p className="text-white/50 text-center py-8">Loading experiences...</p>
+          ) : experiences.length === 0 ? (
+            <p className="text-white/50 text-center py-8">No work experiences yet. Add your first experience!</p>
+          ) : (
+            <div className="space-y-4">
+              {experiences.map((experience) => (
+                <div key={experience.id} className="flex items-center justify-between p-4 bg-white/5 rounded-lg border border-white/10">
+                  <div className="flex-1">
+                    <h3 className="font-semibold text-white">{experience.title}</h3>
+                    <p className="text-sm text-white/60 mt-1">{experience.role} at {experience.company}</p>
+                    <p className="text-xs text-white/40 mt-1">{experience.startDate} - {experience.endDate || "Present"}</p>
+                  </div>
+                  <div className="flex gap-2">
+                    <Button size="sm" variant="outline" onClick={() => handleEditExperience(experience)} className="border-white/10">
+                      <Edit size={16} />
+                    </Button>
+                    <Button size="sm" variant="destructive" onClick={() => deleteExperienceMutation.mutate(experience.id)}>
+                      <Trash2 size={16} />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
+
 
 function BlogsPanel({ blogs, queryClient, toast }: { blogs: Blog[], queryClient: any, toast: any }) {
   const [isOpen, setIsOpen] = useState(false);

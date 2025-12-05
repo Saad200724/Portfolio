@@ -8,7 +8,9 @@ import {
   insertSkillCategorySchema,
   insertSkillSchema,
   insertAdditionalSkillSchema,
-  insertBlogSchema
+  insertBlogSchema,
+  insertAboutInfoSchema,
+  insertExperienceSchema
 } from "@shared/schema";
 import { z } from "zod";
 import { spawn } from "child_process";
@@ -419,6 +421,91 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ success: true });
     } catch (error) {
       res.status(500).json({ success: false, message: "Failed to delete blog" });
+    }
+  });
+
+  app.get("/api/about", async (req, res) => {
+    try {
+      const info = await storage.getAboutInfo();
+      res.json(info || null);
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to fetch about info" });
+    }
+  });
+
+  app.post("/api/about", async (req, res) => {
+    try {
+      const validatedData = insertAboutInfoSchema.parse(req.body);
+      const info = await storage.createAboutInfo(validatedData);
+      res.json({ success: true, info });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ success: false, message: "Invalid data", errors: error.errors });
+      } else {
+        res.status(500).json({ success: false, message: "Failed to create about info" });
+      }
+    }
+  });
+
+  app.put("/api/about/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const info = await storage.updateAboutInfo(id, req.body);
+      if (!info) {
+        return res.status(404).json({ success: false, message: "About info not found" });
+      }
+      res.json({ success: true, info });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to update about info" });
+    }
+  });
+
+  app.get("/api/experiences", async (req, res) => {
+    try {
+      const experienceList = await storage.getAllExperiences();
+      res.json(experienceList);
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to fetch experiences" });
+    }
+  });
+
+  app.post("/api/experiences", async (req, res) => {
+    try {
+      const validatedData = insertExperienceSchema.parse(req.body);
+      const experience = await storage.createExperience(validatedData);
+      res.json({ success: true, experience });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ success: false, message: "Invalid data", errors: error.errors });
+      } else {
+        res.status(500).json({ success: false, message: "Failed to create experience" });
+      }
+    }
+  });
+
+  app.put("/api/experiences/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const experience = await storage.updateExperience(id, req.body);
+      if (!experience) {
+        return res.status(404).json({ success: false, message: "Experience not found" });
+      }
+      res.json({ success: true, experience });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to update experience" });
+    }
+  });
+
+  app.delete("/api/experiences/:id", async (req, res) => {
+    try {
+      const id = parseInt(req.params.id);
+      const deleted = await storage.deleteExperience(id);
+      if (!deleted) {
+        return res.status(404).json({ success: false, message: "Experience not found" });
+      }
+      res.json({ success: true });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Failed to delete experience" });
     }
   });
 
