@@ -4,7 +4,7 @@ import { Github, Sparkles, FolderKanban } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import SEO from "@/components/SEO";
 import ProjectCard from "@/components/ProjectCard";
-import { PROJECTS, SOCIAL_LINKS } from "@/lib/constants";
+import { SOCIAL_LINKS } from "@/lib/constants";
 
 type FilterType = 'all' | 'fullstack' | 'backend' | 'frontend' | 'data';
 
@@ -27,20 +27,17 @@ export default function Projects() {
     queryKey: ["/api/projects"],
   });
 
-  const allProjects = [
-    ...dbProjects.map(p => ({
-      id: p.id.toString(),
-      title: p.title,
-      description: p.description,
-      technologies: p.technologies,
-      category: p.category as 'fullstack' | 'backend' | 'frontend' | 'data',
-      githubUrl: p.githubUrl || undefined,
-      liveUrl: p.liveUrl || undefined,
-      docsUrl: p.docsUrl || undefined,
-      imageUrl: p.imageUrl
-    })),
-    ...PROJECTS
-  ];
+  const allProjects = dbProjects.map(p => ({
+    id: p.id.toString(),
+    title: p.title,
+    description: p.description,
+    technologies: p.technologies,
+    category: p.category as 'fullstack' | 'backend' | 'frontend' | 'data',
+    githubUrl: p.githubUrl || undefined,
+    liveUrl: p.liveUrl || undefined,
+    docsUrl: p.docsUrl || undefined,
+    imageUrl: p.imageUrl
+  }));
 
   const filters: { value: FilterType; label: string }[] = [
     { value: 'all', label: 'All Projects' },
